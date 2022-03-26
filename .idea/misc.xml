@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/91731/AndroidStudioProjects/DCHELPER/app/src/main/res/layout/activity_add_venue.xml" value="0.1796875" />
+        <entry key="..\:/Users/91731/AndroidStudioProjects/DCHELPER/app/src/main/res/layout/activity_faculty_list.xml" value="0.1796875" />
+        <entry key="..\:/Users/91731/AndroidStudioProjects/DCHELPER/app/src/main/res/layout/activity_main.xml" value="0.1796875" />
+        <entry key="..\:/Users/91731/AndroidStudioProjects/DCHELPER/app/src/main/res/layout/activity_venue_list.xml" value="0.1796875" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/drawable/rounded.xml" value="0.1545" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_admin_dashboard.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_faculty_list.xml" value="0.2" />
@@ -14,7 +18,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
