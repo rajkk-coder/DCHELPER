@@ -23,8 +23,7 @@
             android:exported="false" />
         <activity
             android:name=".splashScreen.SplashActivity"
-            android:exported="true"
-            android:noHistory="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
