@@ -3,9 +3,10 @@ package com.example.dchelper;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.accessibilityservice.AccessibilityService;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,7 +19,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import kotlinx.coroutines.Delay;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,10 +49,19 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
                             Toast.makeText(MainActivity.this, "Faculty added successfully", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(MainActivity.this, FacultyListActivity.class));}
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                }
+                            },1000);
+                            startActivity(new Intent(MainActivity.this, FacultyListActivity.class));
+                            finish();
+                        }
                     }
                 });}
             }
         });
     }
+
 }
