@@ -15,6 +15,19 @@
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_splash.xml" value="0.19282051282051282" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_venue_list.xml" value="0.2" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/faculty_card.xml" value="0.2" />
+        <entry key="..\:/Users/sreya/AndroidStudioProjects/DCHELPER/app/src/main/res/drawable/add_icon.xml" value="0.2275" />
+        <entry key="..\:/Users/sreya/AndroidStudioProjects/DCHELPER/app/src/main/res/drawable/custom_progressbg.xml" value="0.1675" />
+        <entry key="..\:/Users/sreya/AndroidStudioProjects/DCHELPER/app/src/main/res/drawable/rounded.xml" value="0.2275" />
+        <entry key="..\:/Users/sreya/AndroidStudioProjects/DCHELPER/app/src/main/res/drawable/roundedrectangle.xml" value="0.2275" />
+        <entry key="..\:/Users/sreya/AndroidStudioProjects/DCHELPER/app/src/main/res/layout/activity_add_venue.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/sreya/AndroidStudioProjects/DCHELPER/app/src/main/res/layout/activity_admin_dashboard.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/sreya/AndroidStudioProjects/DCHELPER/app/src/main/res/layout/activity_faculty_list.xml" value="0.25052083333333336" />
+        <entry key="..\:/Users/sreya/AndroidStudioProjects/DCHELPER/app/src/main/res/layout/activity_login.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/sreya/AndroidStudioProjects/DCHELPER/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/sreya/AndroidStudioProjects/DCHELPER/app/src/main/res/layout/activity_schedule.xml" value="0.264" />
+        <entry key="..\:/Users/sreya/AndroidStudioProjects/DCHELPER/app/src/main/res/layout/activity_splash.xml" value="0.25052083333333336" />
+        <entry key="..\:/Users/sreya/AndroidStudioProjects/DCHELPER/app/src/main/res/layout/activity_venue_list.xml" value="0.25052083333333336" />
+        <entry key="..\:/Users/sreya/AndroidStudioProjects/DCHELPER/app/src/main/res/layout/faculty_card.xml" value="0.25052083333333336" />
       </map>
     </option>
   </component>

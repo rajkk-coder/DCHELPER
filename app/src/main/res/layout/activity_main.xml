@@ -11,9 +11,9 @@
         android:layout_height="50dp"
         android:textSize="25sp"
         android:gravity="center"
-        android:background="@color/purple_500"
+        android:background="@drawable/rounded"
         android:textStyle="bold|normal"
-        android:text="ADD NEW FACULTY" />
+        android:text="Add New Faculty" />
 
     <TextView
         android:id="@+id/textView3"
@@ -27,7 +27,7 @@
 
     <EditText
         android:id="@+id/f_id"
-        android:background="@drawable/rounded"
+        android:background="@drawable/roundedrectangle"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_gravity="center_horizontal"
@@ -47,7 +47,7 @@
 
     <EditText
         android:id="@+id/f_name"
-        android:background="@drawable/rounded"
+        android:background="@drawable/roundedrectangle"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_gravity="center_horizontal"
