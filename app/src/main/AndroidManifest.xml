@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Dchelper" >
         <activity
+            android:name=".admin.venue.AddVenueActivity"
+            android:exported="false" />
+        <activity
             android:name=".admin.faculty.FacultyListActivity"
             android:exported="false" />
         <activity

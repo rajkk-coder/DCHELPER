@@ -26,14 +26,17 @@ public class VenueListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_venue_list);
-        FloatingActionButton button=(FloatingActionButton) findViewById(R.id.add_venue);
+
+        //FloatingActionButton add_venues
+        FloatingActionButton button=findViewById(R.id.add_venue);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(VenueListActivity.this, AddVenueActivity.class));
             }
         });
-        //FloatingActionButton add_faculty;
+
+
         RecyclerView recyclerView=findViewById(R.id.rv1);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
