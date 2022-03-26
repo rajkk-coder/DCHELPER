@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "662739377428",
+    "project_id": "data-77c22",
+    "storage_bucket": "data-77c22.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:662739377428:android:6f6e839c85ec36b5dd3601",
+        "android_client_info": {
+          "package_name": "com.example.dchelper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "662739377428-a8iohjrun6k730qeg8d9jajers2h680k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBf0sNaCSASEAoF44WJCPqq6fFHOCsfbPg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "662739377428-a8iohjrun6k730qeg8d9jajers2h680k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
