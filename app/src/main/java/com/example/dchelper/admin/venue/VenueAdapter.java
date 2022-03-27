@@ -3,6 +3,7 @@ package com.example.dchelper.admin.venue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,7 +31,12 @@ public class VenueAdapter extends FirebaseRecyclerAdapter<Venue, VenueAdapter.Ve
     @Override
     protected void onBindViewHolder(@NonNull VenueHolder holder, int position, @NonNull Venue model) {
         holder.name.setText(model.getName());
-        holder.id.setText(model.getId());
+        holder.book.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -42,18 +48,19 @@ public class VenueAdapter extends FirebaseRecyclerAdapter<Venue, VenueAdapter.Ve
     @NonNull
     @Override
     public VenueHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.faculty_card,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.venue_card,parent,false);
         return new VenueHolder(view);
     }
 
     class VenueHolder extends RecyclerView.ViewHolder{
-        TextView name,id;
-        ImageView edit;
+        TextView name;
+        ImageView book;
+        ImageButton edit;
         public VenueHolder(@NonNull View itemView) {
             super(itemView);
-            name=itemView.findViewById(R.id.user);
-            id=itemView.findViewById(R.id.user_id);
-            edit=itemView.findViewById(R.id.edit);
+            name=itemView.findViewById(R.id.v_name);
+            book=itemView.findViewById(R.id.v_book);
+            edit=itemView.findViewById(R.id.v_edit);
         }
     }
 }

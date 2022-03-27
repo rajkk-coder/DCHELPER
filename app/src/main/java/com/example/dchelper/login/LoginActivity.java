@@ -1,13 +1,8 @@
 package com.example.dchelper.login;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.TimePicker;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,92 +14,111 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 public class LoginActivity extends AppCompatActivity {
-    TimePicker picker;
-    com.google.android.gms.common.SignInButton btnGet;
-    TextView tvw;
+    private long backPressedTime;
+    private Toast backToast;
+
     GoogleSignInClient mGoogleSignInClient;
-    private static int RC_SIGN_IN=100;
+    final static int RC_SIGN_IN=100;
+    final FirebaseAuth mAuth=FirebaseAuth.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        String token="662739377428-a8iohjrun6k730qeg8d9jajers2h680k.apps.googleusercontent.com";
+        GoogleSignInOptions gso=new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(token)
                 .requestEmail()
                 .build();
-        // Build a GoogleSignInClient with the options specified by gso.
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        // Check for existing Google Sign In account, if the user is already signed in
-// the GoogleSignInAccount will be non-null.
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-
-        // Set the dimensions of the sign-in button.
-        @SuppressLint("WrongViewCast") SignInButton signInButton = findViewById(R.id.sign_in_button); //CAN BE REMOVED
-        signInButton.setSize(SignInButton.SIZE_STANDARD);
-
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signIn();
-            }
+        mGoogleSignInClient = GoogleSignIn.getClient(this,gso);
+        //mGoogleSignInClient=GoogleAuthProvider.
+        com.google.android.gms.common.SignInButton signInButton=findViewById(R.id.sign_in_button);
+        //SignIn
+        signInButton.setOnClickListener(view -> {
+            signIn();
         });
+
     }
-    private void signIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
-            // The Task returned from this call is always completed, no need to attach
-            // a listener.
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            startActivity(new Intent(LoginActivity.this, AdminDashboardActivity.class));
-            handleSignInResult(task);
-            finish();
-        }
-    }
-
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        try {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-
-            GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
-            if (acct != null) {
-                startActivity(new Intent(LoginActivity.this,AdminDashboardActivity.class));
-                String personName = acct.getDisplayName();
-                String personGivenName = acct.getGivenName();
-                String personFamilyName = acct.getFamilyName();
-                String personEmail = acct.getEmail();
-                String personId = acct.getId();
-                Uri personPhoto = acct.getPhotoUrl();
-                Toast.makeText(this, "personName: "+ personName, Toast.LENGTH_LONG).show();
-                signOut();
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                firebaseAuthWithGoogle(account);
+            } catch (ApiException e) {
+                Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
             }
-        } catch (ApiException e) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            //Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
-            Log.d("Failed",e.toString());
-            // updateUI(null);
         }
     }
+    private void signIn(){
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent,RC_SIGN_IN);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        signOut();
+    }
+
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        //Login as an admin
+        if(acct.getEmail().equals("dchelper21@gmail.com")){
+            AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+            mAuth.signInWithCredential(credential)
+                    .addOnSuccessListener(this, authResult -> {
+                        startActivity(new Intent(LoginActivity.this, AdminDashboardActivity.class));
+                        //finish();
+                    })
+                    .addOnFailureListener(this, e -> Toast.makeText(LoginActivity.this, "Authentication failed.",
+                            Toast.LENGTH_SHORT).show());
+        }
+        //Login as scholar: in this case scholar is B.tech student
+        else if(acct.getEmail().contains("_b") && acct.getEmail().endsWith("@nitc.ac.in")){
+            AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+            mAuth.signInWithCredential(credential)
+                    .addOnSuccessListener(this, authResult -> {
+
+                        startActivity(new Intent(LoginActivity.this, AdminDashboardActivity.class));
+                        //Toast.makeText(this, "Finally Happy!!", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(this, e -> Toast.makeText(LoginActivity.this, "Authentication failed.",
+                            Toast.LENGTH_SHORT).show());
+        }
+        //Else user is not authenticated
+        else {
+            Toast.makeText(this, "Please choose a valid email Id", Toast.LENGTH_SHORT).show();
+            signOut();
+        }
+
+    }
+
     private void signOut() {
         mGoogleSignInClient.signOut()
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        // ...
-
-                    }
+                .addOnCompleteListener(this, task -> {
+                    // ...
+                    Toast.makeText(LoginActivity.this, "See you again", Toast.LENGTH_SHORT).show();
                 });
+    }
+    @Override
+    public void onBackPressed(){
+        if(backPressedTime+2000>System.currentTimeMillis()){
+            backToast.cancel();
+            super.onBackPressed();
+            finish();
+        }else {
+            backToast=Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT);
+            backToast.show();
+        }
+        backPressedTime=System.currentTimeMillis();
     }
 }

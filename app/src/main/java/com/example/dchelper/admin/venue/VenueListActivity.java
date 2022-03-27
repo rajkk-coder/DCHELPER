@@ -1,19 +1,13 @@
 package com.example.dchelper.admin.venue;
 
+import android.content.Intent;
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
-
-import com.example.dchelper.MainActivity;
 import com.example.dchelper.R;
-import com.example.dchelper.admin.faculty.Faculty;
-import com.example.dchelper.admin.faculty.FacultyAdapter;
-import com.example.dchelper.admin.faculty.FacultyListActivity;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
@@ -29,12 +23,7 @@ public class VenueListActivity extends AppCompatActivity {
 
         //FloatingActionButton add_venues
         FloatingActionButton button=findViewById(R.id.add_venue);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(VenueListActivity.this, AddVenueActivity.class));
-            }
-        });
+        button.setOnClickListener(view -> startActivity(new Intent(VenueListActivity.this, AddVenueActivity.class)));
 
 
         RecyclerView recyclerView=findViewById(R.id.rv1);
@@ -49,9 +38,6 @@ public class VenueListActivity extends AppCompatActivity {
                 new FirebaseRecyclerOptions.Builder<Venue>()
                         .setQuery(query, Venue.class)
                         .build();
-        if(options==null) {
-            Toast.makeText(VenueListActivity.this,"Maar jae",Toast.LENGTH_LONG).show();
-        }
         venueAdapter =new VenueAdapter(options);
         recyclerView.setAdapter(venueAdapter);
 

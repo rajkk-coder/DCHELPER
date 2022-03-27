@@ -1,5 +1,6 @@
 package com.example.dchelper.admin.faculty;
 
+import android.app.Dialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dchelper.R;
@@ -33,7 +35,8 @@ public class FacultyAdapter extends FirebaseRecyclerAdapter<Faculty, FacultyAdap
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Toast.makeText(FacultyListActivity.CO, "To be done", Toast.LENGTH_SHORT).show();
+                //final Dialog dialog= new Dialog(holder.name.getContext())
+                  //      .setFeatureDrawable();
             }
         });
     }
