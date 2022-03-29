@@ -67,15 +67,19 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+
         if(account!=null){
-            startActivity(new Intent(this,AdminDashboardActivity.class));
+            if(account.getEmail().equals("dchelper23@gmail.com"))
+                startActivity(new Intent(this,AdminDashboardActivity.class));
+            else if(account.getEmail().endsWith("@nitc.ac.in") && account.getEmail().contains("_b"))
+                startActivity(new Intent(this,ScholarDashboardActivity.class));
             finish();
         }
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         //Login as an admin
-        if(acct.getEmail().equals("dchelper21@gmail.com")){
+        if(acct.getEmail().equals("dchelper23@gmail.com")){
             AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
             mAuth.signInWithCredential(credential)
                     .addOnSuccessListener(this, authResult -> {

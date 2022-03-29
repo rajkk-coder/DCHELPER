@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +21,9 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.FirebaseDatabase;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class VenueAdapter extends FirebaseRecyclerAdapter<Venue, VenueAdapter.VenueHolder> {
 
@@ -57,7 +61,8 @@ public class VenueAdapter extends FirebaseRecyclerAdapter<Venue, VenueAdapter.Ve
                 EditText id=view1.findViewById(R.id.editableVenueId);
                 name.setText(model.getName());
                 id.setText(model.getId());
-                ImageButton imageButton=view1.findViewById(R.id.venue_save_changes);
+                ImageButton imageButton=view1.findViewById(R.id.permanent_delete_venue);
+                ImageButton imageButton1=view1.findViewById(R.id.venue_save_changes);
                 dialogPlus.show();
                 imageButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -65,6 +70,19 @@ public class VenueAdapter extends FirebaseRecyclerAdapter<Venue, VenueAdapter.Ve
                         FirebaseDatabase.getInstance().getReference().child("venueList")
                                 .child(getRef(position).getKey())
                                 .removeValue();
+                        dialogPlus.dismiss();
+                    }
+                });
+                imageButton1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Map<String,Object> map=new HashMap<>();
+                        map.put("id",id.getText().toString());
+                        map.put("name",name.getText().toString());
+                        FirebaseDatabase.getInstance().getReference().child("venueList")
+                                .child(getRef(position).getKey())
+                                .updateChildren(map);
+                        Toast.makeText(id.getContext(), "Saved changes", Toast.LENGTH_SHORT).show();
                         dialogPlus.dismiss();
                     }
                 });

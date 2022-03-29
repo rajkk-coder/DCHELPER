@@ -60,4 +60,10 @@ public class AddFacultyActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        startActivity(new Intent(this,FacultyListActivity.class));
+    }
 }

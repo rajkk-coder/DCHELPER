@@ -47,7 +47,7 @@ public class FacultyAdapter extends FirebaseRecyclerAdapter<Faculty, FacultyAdap
 
                 final DialogPlus dialogPlus= DialogPlus.newDialog(holder.name.getContext())
                         .setContentHolder(new ViewHolder(R.layout.activity_edit_faculty))
-                        .setExpanded(true,980)
+                        .setExpanded(true,1280)
                         .setGravity(Gravity.CENTER)
                         .create();
                 View view1=dialogPlus.getHolderView();
