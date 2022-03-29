@@ -1,8 +1,12 @@
 package com.example.dchelper.admin.venue;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,6 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.dchelper.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.FirebaseDatabase;
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.ViewHolder;
 
 public class VenueAdapter extends FirebaseRecyclerAdapter<Venue, VenueAdapter.VenueHolder> {
 
@@ -29,7 +36,7 @@ public class VenueAdapter extends FirebaseRecyclerAdapter<Venue, VenueAdapter.Ve
 
 
     @Override
-    protected void onBindViewHolder(@NonNull VenueHolder holder, int position, @NonNull Venue model) {
+    protected void onBindViewHolder(@NonNull VenueHolder holder, @SuppressLint("RecyclerView") int position, @NonNull Venue model) {
         holder.name.setText(model.getName());
         holder.book.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,7 +47,27 @@ public class VenueAdapter extends FirebaseRecyclerAdapter<Venue, VenueAdapter.Ve
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Toast.makeText(FacultyListActivity.CO, "To be done", Toast.LENGTH_SHORT).show();
+                final DialogPlus dialogPlus= DialogPlus.newDialog(holder.name.getContext())
+                        .setContentHolder(new ViewHolder(R.layout.edit_venue))
+                        .setExpanded(true,980)
+                        .setGravity(Gravity.CENTER)
+                        .create();
+                View view1=dialogPlus.getHolderView();
+                EditText name=view1.findViewById(R.id.editable_venue_name);
+                EditText id=view1.findViewById(R.id.editableVenueId);
+                name.setText(model.getName());
+                id.setText(model.getId());
+                ImageButton imageButton=view1.findViewById(R.id.venue_save_changes);
+                dialogPlus.show();
+                imageButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        FirebaseDatabase.getInstance().getReference().child("venueList")
+                                .child(getRef(position).getKey())
+                                .removeValue();
+                        dialogPlus.dismiss();
+                    }
+                });
             }
         });
     }

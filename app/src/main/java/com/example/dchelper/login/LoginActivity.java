@@ -2,18 +2,18 @@ package com.example.dchelper.login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dchelper.R;
 import com.example.dchelper.admin.AdminDashboardActivity;
+import com.example.dchelper.scholar.ScholarDashboardActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -23,14 +23,15 @@ import com.google.firebase.auth.GoogleAuthProvider;
 public class LoginActivity extends AppCompatActivity {
     private long backPressedTime;
     private Toast backToast;
-
     GoogleSignInClient mGoogleSignInClient;
     final static int RC_SIGN_IN=100;
+    SignInButton signInButton;
     final FirebaseAuth mAuth=FirebaseAuth.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        signInButton=findViewById(R.id.signInButton);
         String token="662739377428-a8iohjrun6k730qeg8d9jajers2h680k.apps.googleusercontent.com";
         GoogleSignInOptions gso=new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(token)
@@ -38,8 +39,6 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this,gso);
         //mGoogleSignInClient=GoogleAuthProvider.
-        com.google.android.gms.common.SignInButton signInButton=findViewById(R.id.sign_in_button);
-        //SignIn
         signInButton.setOnClickListener(view -> {
             signIn();
         });
@@ -65,9 +64,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        signOut();
+    protected void onStart() {
+        super.onStart();
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if(account!=null){
+            startActivity(new Intent(this,AdminDashboardActivity.class));
+            finish();
+        }
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
@@ -77,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
             mAuth.signInWithCredential(credential)
                     .addOnSuccessListener(this, authResult -> {
                         startActivity(new Intent(LoginActivity.this, AdminDashboardActivity.class));
-                        //finish();
+                        finish();
                     })
                     .addOnFailureListener(this, e -> Toast.makeText(LoginActivity.this, "Authentication failed.",
                             Toast.LENGTH_SHORT).show());
@@ -88,7 +91,8 @@ public class LoginActivity extends AppCompatActivity {
             mAuth.signInWithCredential(credential)
                     .addOnSuccessListener(this, authResult -> {
 
-                        startActivity(new Intent(LoginActivity.this, AdminDashboardActivity.class));
+                        startActivity(new Intent(LoginActivity.this, ScholarDashboardActivity.class));
+                        finish();
                         //Toast.makeText(this, "Finally Happy!!", Toast.LENGTH_SHORT).show();
                     })
                     .addOnFailureListener(this, e -> Toast.makeText(LoginActivity.this, "Authentication failed.",

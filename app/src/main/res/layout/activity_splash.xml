@@ -7,30 +7,32 @@
     android:background="@drawable/splash"
     tools:context=".splashScreen.SplashActivity">
 
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="214dp"
+        android:layout_height="247dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.214"
+        app:srcCompat="@drawable/logo" />
+
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="false"
-        android:fontFamily="sans-serif-black"
-        android:text="Welcome to DC Helper"
-        android:textAlignment="center"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
+        android:fontFamily="serif"
+        android:text="Welcome to DCHelper"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold|normal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.529"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="418dp" />
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="192dp"
-        android:layout_height="192dp"
-        android:layout_alignParentEnd="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/logo"
-        tools:layout_editor_absoluteY="104dp" />
-
-</androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android">
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintVertical_bias="0.243" />
+</androidx.constraintlayout.widget.ConstraintLayout>

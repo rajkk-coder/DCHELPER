@@ -25,15 +25,12 @@ public class VenueListActivity extends AppCompatActivity {
         FloatingActionButton button=findViewById(R.id.add_venue);
         button.setOnClickListener(view -> startActivity(new Intent(VenueListActivity.this, AddVenueActivity.class)));
 
-
+        //For Scattering faculties
         RecyclerView recyclerView=findViewById(R.id.rv1);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        //For Scattering faculties
         DatabaseReference myRef= FirebaseDatabase.getInstance().getReference().child("venueList");
         Query query=myRef.orderByKey();
-
         FirebaseRecyclerOptions<Venue> options =
                 new FirebaseRecyclerOptions.Builder<Venue>()
                         .setQuery(query, Venue.class)

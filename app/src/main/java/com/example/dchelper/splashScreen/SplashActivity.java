@@ -1,10 +1,10 @@
 package com.example.dchelper.splashScreen;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dchelper.R;
 import com.example.dchelper.login.LoginActivity;

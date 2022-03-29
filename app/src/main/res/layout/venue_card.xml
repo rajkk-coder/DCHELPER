@@ -34,7 +34,7 @@
             android:layout_marginEnd="99dp"
             android:layout_marginBottom="5dp"
             android:background="@color/white"
-            android:src="@drawable/ic_baseline_book_online_24" />
+            android:src="@drawable/ic_baseline_library_books_24" />
 
         <ImageButton
             android:id="@+id/v_edit"

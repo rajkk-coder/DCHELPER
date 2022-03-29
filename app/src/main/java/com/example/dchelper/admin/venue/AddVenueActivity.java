@@ -47,7 +47,9 @@ public class AddVenueActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
                                 Toast.makeText(AddVenueActivity.this, "Venue added successfully", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(AddVenueActivity.this, VenueListActivity.class));}
+                                startActivity(new Intent(AddVenueActivity.this, VenueListActivity.class));
+                                finish();
+                            }
                         }
                     });}
             }
