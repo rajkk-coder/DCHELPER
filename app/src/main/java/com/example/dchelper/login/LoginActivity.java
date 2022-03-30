@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this,gso);
-        //mGoogleSignInClient=GoogleAuthProvider.
+
         signInButton.setOnClickListener(view -> {
             signIn();
         });

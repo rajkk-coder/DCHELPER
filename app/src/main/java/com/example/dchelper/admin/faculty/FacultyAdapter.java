@@ -40,7 +40,6 @@ public class FacultyAdapter extends FirebaseRecyclerAdapter<Faculty, FacultyAdap
     protected void onBindViewHolder(@NonNull FacultyHolder holder, @SuppressLint("RecyclerView") int position, @NonNull Faculty model) {
         holder.name.setText(model.getName());
         holder.id.setText(model.getId());
-
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -16,9 +16,9 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.example.dchelper.R;
+import com.example.dchelper.admin.faculty.FacultyListActivity;
 
 import java.util.Calendar;
-import java.util.Objects;
 
 public class SecondFragment extends Fragment {
     private ProgressBar progressbar;
@@ -98,73 +98,12 @@ public class SecondFragment extends Fragment {
         //DATE
 
         Button btn=view.findViewById(R.id.proceed);
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String[] token1=startDate.split("/");
-                String[] token2=endDate.split("/");
-//                if(token1.length==3){
-//                    try{
-//                        int a=Integer.parseInt(token1[0]);
-//                        int b=Integer.parseInt(token1[1]);
-//                        int c=Integer.parseInt(token1[2]);
-//                    }catch (Exception e){
-//                        Toast.makeText(getContext(), (CharSequence) e, Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//                else{
-//                    Toast.makeText(getContext(), "invalid start date", Toast.LENGTH_SHORT).show();
-//                }
-//                if(token2.length==3){
-//                    try{
-//                        int a=Integer.parseInt(token2[0]);
-//                        int b=Integer.parseInt(token2[1]);
-//                        int c=Integer.parseInt(token2[2]);
-//                    }catch (Exception e){
-//                        Toast.makeText(getContext(), (CharSequence) e, Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//                else{
-//                    Toast.makeText(getContext(), "invalid start date", Toast.LENGTH_SHORT).show();
-//                }
-                if(Integer.parseInt(token1[2]) < Integer.parseInt(token2[2])){
-                    Bundle bundle = new Bundle();
-                    bundle.putString("sdate", startDate);
-                    bundle.putString("edate", endDate);
-                    Intent intent=new Intent(getContext(), slots.class);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                }
-                else if(Integer.parseInt(token1[2]) == Integer.parseInt(token2[2])){
-                    if(Integer.parseInt(token1[1]) < Integer.parseInt(token2[1])){
-                        Bundle bundle = new Bundle();
-                        bundle.putString("sdate", startDate);
-                        bundle.putString("edate", endDate);
-                        Intent intent=new Intent(getContext(), slots.class);
-                        intent.putExtras(bundle);
-                        startActivity(intent);
-                    }
-                    else if(Integer.parseInt(token1[1]) == Integer.parseInt(token2[1])){
-                        if(Integer.parseInt(token1[0]) <= Integer.parseInt(token2[0])){
-                            Bundle bundle = new Bundle();
-                            bundle.putString("sdate", startDate);
-                            bundle.putString("edate", endDate);
-                            Intent intent=new Intent(getContext(), slots.class);
-                            intent.putExtras(bundle);
-                            startActivity(intent);
-                        }
-                        else{
-                            Toast.makeText(getContext(), "Invalid date range", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                    else{
-                        Toast.makeText(getContext(), "Invalid date range", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                else{
-                    Toast.makeText(getContext(), "Invalid date range", Toast.LENGTH_SHORT).show();
-                }
 
+                startActivity(new Intent(getContext(), GetDateActivity.class));
             }
         });
 
