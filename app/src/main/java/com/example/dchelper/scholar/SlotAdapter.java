@@ -31,7 +31,6 @@ public class SlotAdapter extends FirebaseRecyclerAdapter<Slot,SlotAdapter.SlotHo
         holder.endTime.setText(model.getEnd_time());
         holder.slotOwner.setText(model.getOwner());
         holder.slotStatus.setText(model.getStatus());
-        Toast.makeText(holder.slotOwner.getContext(), "Hello", Toast.LENGTH_SHORT).show();
     }
 
     @NonNull
