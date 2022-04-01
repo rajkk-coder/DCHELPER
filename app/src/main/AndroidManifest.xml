@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.dchelper" >
+    package="com.example.dchelper">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -11,7 +11,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Dchelper" >
+        android:theme="@style/Theme.Dchelper">
+        <activity
+            android:name=".scholar.addPanelMembers"
+            android:exported="false" />
         <activity
             android:name=".scholar.book_or_block"
             android:exported="false" />
@@ -19,14 +22,20 @@
             android:name=".scholar.managePanelMembers"
             android:exported="false" />
         <activity
-            android:name=".scholar.slots"
+            android:name=".scholar.GetDateActivity"
             android:exported="false" />
         <activity
             android:name=".scholar.select_time"
             android:exported="false" />
         <activity
             android:name=".scholar.ScholarDashboardActivity"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".admin.faculty.AddFacultyActivity"
             android:exported="false" />
@@ -48,7 +57,7 @@
         <activity
             android:name=".splashScreen.SplashActivity"
             android:exported="true"
-            android:noHistory="true" >
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -60,7 +69,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
