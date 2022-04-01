@@ -1,6 +1,11 @@
 package com.example.dchelper.scholar;
 
 import android.content.Context;
+<<<<<<< HEAD
+=======
+import android.content.Intent;
+import android.os.Bundle;
+>>>>>>> origin/master
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +35,28 @@ public class SlotAdapter extends FirebaseRecyclerAdapter<Slot,SlotAdapter.SlotHo
         holder.startTime.setText(model.getStart_time());
         holder.endTime.setText(model.getEnd_time());
         holder.slotOwner.setText(model.getOwner());
+<<<<<<< HEAD
         holder.slotStatus.setText(model.getStatus());
+=======
+        if(!model.getOwner().equals("free"))
+            holder.slotStatus.setText(model.getStatus());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(model.getOwner().equals("free")){
+                    Intent intent=new Intent(view.getContext(),select_time.class);
+                    Bundle bundle=new Bundle();
+                    bundle.putString("venue",model.getVenue());
+                    bundle.putString("date",model.getDate());
+                    bundle.putString("slot_start_time",model.getStart_time());
+                    bundle.putString("slot_end_time",model.getEnd_time());
+                    bundle.putString("reference",getRef(position).getKey());
+                    intent.putExtras(bundle);
+                    holder.context.startActivity(intent);
+                }
+            }
+        });
+>>>>>>> origin/master
     }
 
     @NonNull

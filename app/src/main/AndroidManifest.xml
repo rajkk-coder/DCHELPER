@@ -19,9 +19,8 @@
             android:name=".scholar.managePanelMembers"
             android:exported="false" />
         <activity
-            android:name=".scholar.GetDateActivity"
-            android:exported="false" >
-        </activity>
+            android:name=".scholar.slots"
+            android:exported="false" />
         <activity
             android:name=".scholar.select_time"
             android:exported="false" />

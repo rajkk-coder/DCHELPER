@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">DCHelper</string>
+    <string-array name="names">
+        <item>Java</item>
+        <item>Kotlin</item>
+        <item>Python</item>
+        <item>CPP</item>
+    </string-array>
 </resources>
