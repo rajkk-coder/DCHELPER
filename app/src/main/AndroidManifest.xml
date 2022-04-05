@@ -19,14 +19,19 @@
             android:name=".scholar.managePanelMembers"
             android:exported="false" />
         <activity
-            android:name=".scholar.slots"
+            android:name=".scholar.GetDateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".scholar.addPanelMembers"
             android:exported="false" />
         <activity
             android:name=".scholar.select_time"
             android:exported="false" />
         <activity
             android:name=".scholar.ScholarDashboardActivity"
-            android:exported="false" />
+            android:exported="false" >
+
+        </activity>
         <activity
             android:name=".admin.faculty.AddFacultyActivity"
             android:exported="false" />
@@ -60,12 +65,8 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="false" >
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

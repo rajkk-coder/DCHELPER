@@ -11,7 +11,14 @@ public class Slot {
     public Slot() {
     }
 
-
+    public Slot(String owner, String start_time, String end_time, String venue, String date, String status) {
+        this.owner = owner;
+        this.start_time = start_time;
+        this.end_time = end_time;
+        this.venue = venue;
+        this.date = date;
+        this.status = status;
+    }
 
     public String getOwner() {
         return owner;
@@ -35,33 +42,5 @@ public class Slot {
 
     public String getStatus() {
         return status;
-    }
-
-<<<<<<< HEAD
-    public Slot(String owner, String start_time, String end_time, String venue, String date, String status) {
-=======
-    public void setStatus(String status){
-        this.status=status;
-    }
-
-    public Slot(String owner, String start_time, String end_time, String venue, String date) {
->>>>>>> origin/master
-        this.owner = owner;
-        this.start_time = start_time;
-        this.end_time = end_time;
-        this.venue = venue;
-        this.date = date;
-<<<<<<< HEAD
-        this.status = status;
-=======
-    }
-    public Slot(String owner, String start_time, String end_time, String venue, String date,String status) {
-        this.owner = owner;
-        this.start_time = start_time;
-        this.end_time = end_time;
-        this.venue = venue;
-        this.date = date;
-        this.status=status;
->>>>>>> origin/master
     }
 }

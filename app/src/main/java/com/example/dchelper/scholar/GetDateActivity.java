@@ -1,14 +1,5 @@
 package com.example.dchelper.scholar;
 
-<<<<<<< HEAD
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.Toast;
-
-=======
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -22,23 +13,11 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
->>>>>>> origin/master
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dchelper.R;
-<<<<<<< HEAD
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-
-public class GetDateActivity extends AppCompatActivity {
-    RecyclerView recyclerView;
-    SlotAdapter slotAdapter;
-    //ProgressBar progressbar;
-=======
 import com.example.dchelper.admin.venue.Venue;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DataSnapshot;
@@ -69,68 +48,10 @@ public class GetDateActivity extends AppCompatActivity implements AdapterView.On
     List<Date> dates = new ArrayList<>();
     List<String> req_for_date=new ArrayList<>();
 
->>>>>>> origin/master
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slots);
-<<<<<<< HEAD
-        LinearLayout layout = (LinearLayout) findViewById(R.id.scroll_dates);
-
-        //Fetching data from the Firebase
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("slot").child("12-03-2022")
-                .child("Aryabhat");
-        Query query = myRef.orderByKey();
-        FirebaseRecyclerOptions<Slot> options =
-                new FirebaseRecyclerOptions.Builder<Slot>()
-                        .setQuery(query, Slot.class)
-                        .build();
-
-
-        recyclerView = findViewById(R.id.slot_display);
-        recyclerView.setLayoutManager(new LinearLayoutManager(GetDateActivity.this));
-
-
-
-        slotAdapter = new SlotAdapter(options);
-        recyclerView.setAdapter(slotAdapter);
-
-        for(int i = 0; i<15 ; i++) {
-
-            //create the button
-            Button btn = new Button(this);
-
-            //set all your button attributes, like text color,background color etc. here
-            btn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            btn.setText(""+i);
-
-            //Set onClickListener
-            btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(GetDateActivity.this, btn.getText(), Toast.LENGTH_SHORT).show();
-                    // define this method in your activity
-//                    onBtnClick(i);
-
-                    //Sending data to the RecyclerView to display
-                }
-            });
-
-            //add the button to your linear layout
-            layout.addView(btn);
-        }
-
-
-//        progressbar=findViewById(R.id.progress_bar);
-//        progressbar.setProgress(50);
-//        progressbar.setMax(100);
-
-    }
-    @Override
-    protected void onStop() {
-        super.onStop();
-        slotAdapter.stopListening();
-=======
 
         //Retrieve from bundle
         Bundle bundle=getIntent().getExtras();
@@ -194,7 +115,7 @@ public class GetDateActivity extends AppCompatActivity implements AdapterView.On
         //Horizontal Scrollbar
         FrameLayout layout2=(FrameLayout) findViewById(R.id.xyz);
 
-       retrieveData();
+        retrieveData();
         List<Button> list = new ArrayList<>();
         for(int i = 0; i<Integer.parseInt(NoOfDates)+1 ; i++) {
             //create the button
@@ -233,17 +154,17 @@ public class GetDateActivity extends AppCompatActivity implements AdapterView.On
                     .child("slot").child(req_for_date.get(i)).child(venue);
             query=myRef.orderByChild("start_time");
             String str=req_for_date.get(i);
-            final int[] lauda = {0};
+            final int[] restricter = {0};
             myRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if(!snapshot.exists() && lauda[0] ==0){
+                    if(!snapshot.exists() && restricter[0] ==0){
                         FirebaseDatabase.getInstance().getReference()
-                        .child("slot")
-                        .child(str)
-                        .child(venue)
-                        .push().setValue(new Slot("free","08:00","18:00",venue,str,"free"));
-                        lauda[0]=1;
+                                .child("slot")
+                                .child(str)
+                                .child(venue)
+                                .push().setValue(new Slot("free","08:00","18:00",venue,str,"free"));
+                        restricter[0]=1;
                     }
                 }
 
@@ -278,15 +199,11 @@ public class GetDateActivity extends AppCompatActivity implements AdapterView.On
         super.onStop();
         for (int i=0;i<Integer.parseInt(NoOfDates)+1;i++)
             slotAdapter.get(i).stopListening();
->>>>>>> origin/master
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-<<<<<<< HEAD
-        slotAdapter.startListening();
-=======
         for (int i=0;i<Integer.parseInt(NoOfDates)+1;i++)
             slotAdapter.get(i).startListening();
     }
@@ -311,11 +228,11 @@ public class GetDateActivity extends AppCompatActivity implements AdapterView.On
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         venue=""+adapterView.getItemAtPosition(i);
+        Toast.makeText(this, venue, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
->>>>>>> origin/master
     }
 }

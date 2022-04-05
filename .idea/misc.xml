@@ -13,9 +13,11 @@
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/drawable/rounded.xml" value="0.1545" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/drawable/rounded_frame.xml" value="0.1" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_add_faculty.xml" value="0.1526293287729799" />
+        <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_add_panel_members.xml" value="0.16417272338606242" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_add_venue.xml" value="0.16417272338606242" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_admin_dashboard.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_book_or_block.xml" value="0.16417272338606242" />
+        <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_display_panel_member_card.xml" value="0.16417272338606242" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_edit_faculty.xml" value="0.16417272338606242" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_faculty_list.xml" value="0.2" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_login.xml" value="0.19282051282051282" />
@@ -25,15 +27,18 @@
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_scholar_dashbaord.xml" value="0.16417272338606242" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_scholar_dashboard.xml" value="0.16417272338606242" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_select_time.xml" value="0.16417272338606242" />
-        <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_slots.xml" value="0.16417272338606242" />
+        <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_slots.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_splash.xml" value="0.19282051282051282" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_venue_list.xml" value="0.2" />
+        <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/add_panel_member_card.xml" value="0.16417272338606242" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/edit_venue.xml" value="0.16417272338606242" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/faculty_card.xml" value="0.2" />
-        <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/fragment_first.xml" value="0.16417272338606242" />
+        <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/fragment_first.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/fragment_second.xml" value="0.16417272338606242" />
+        <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/fragment_third.xml" value="0.16417272338606242" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/line.xml" value="0.16417272338606242" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/slot_card.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/tick.xml" value="0.16417272338606242" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/venue_card.xml" value="0.17407407407407408" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
         <entry key="..\:/Users/sreya/AndroidStudioProjects/DCHELPER/app/src/main/res/layout/activity_add_panel_members.xml" value="0.25416666666666665" />

@@ -23,7 +23,7 @@
             android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:background="@drawable/roundedrectangle"/>
+            android:background="@drawable/rectangle2"/>
 
         <View
             android:layout_width="match_parent"

@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "662739377428",
+    "firebase_url": "https://data-77c22-default-rtdb.firebaseio.com",
     "project_id": "data-77c22",
     "storage_bucket": "data-77c22.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "662739377428-9nj7bfv1vqf7knmhiimfbb4suopbit1m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dchelper",
+            "certificate_hash": "9bebeb7d324582fb036bc46131e30e3e0d7688c8"
+          }
+        },
         {
           "client_id": "662739377428-a8iohjrun6k730qeg8d9jajers2h680k.apps.googleusercontent.com",
           "client_type": 3

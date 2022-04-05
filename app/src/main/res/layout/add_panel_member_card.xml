@@ -5,7 +5,9 @@
     android:layout_height="wrap_content"
     android:elevation="6dp"
     app:cardCornerRadius="6dp"
-    app:cardUseCompatPadding="true">
+    app:cardUseCompatPadding="true"
+    android:layout_margin="18dp"
+    android:id="@+id/card_raju">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -34,15 +36,24 @@
 
         <ImageButton
             android:id="@+id/c_box"
-            android:layout_width="48dp"
-            android:layout_height="35dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="18dp"
             android:outlineSpotShadowColor="#E91E63"
             android:src="@drawable/add_icon" />
-
+        <ImageView
+            android:id="@+id/check_box"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="18dp"
+            android:src="@drawable/ic_tick"
+            android:visibility="gone"/>
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

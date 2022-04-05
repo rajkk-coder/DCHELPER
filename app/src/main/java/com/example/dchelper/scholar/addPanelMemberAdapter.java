@@ -37,7 +37,6 @@ public class addPanelMemberAdapter extends FirebaseRecyclerAdapter<Faculty,addPa
      *
      * @param options
      */
-    ArrayList<String>panelList=new ArrayList<>();
 
     public addPanelMemberAdapter(@NonNull FirebaseRecyclerOptions<Faculty> options) {
         super(options);
@@ -49,62 +48,8 @@ public class addPanelMemberAdapter extends FirebaseRecyclerAdapter<Faculty,addPa
         holder.imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseDatabase.getInstance().getReference().child("PanelMember").child("Raju").child("DC")
-                        .addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for (DataSnapshot data:snapshot.getChildren())
-                                   if(data.exists()){
-                                       panelList.add(data.getValue(String.class));
-                                       Toast.makeText(view.getContext(), panelList.size(), Toast.LENGTH_SHORT).show();
-                                   }
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                                Toast.makeText(holder.context, "lauda", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-             //-----   Toast.makeText(holder.context, ""+panelList.size(), Toast.LENGTH_SHORT).show();
-//                String fname=model.getName();
-//                int flag=0;
-//                for(int i=0;i<panelList.size();i++){
-//                    if(panelList.get(i).equals(fname)){
-//                        flag=1;
-//                        break;
-//                    }
-//                }
-//                if (flag==0){
-//                    FirebaseDatabase.getInstance().getReference()
-//                            .child("PanelMember")
-//                            .push().setValue(new PanelMember(fname,"DC","Sreyansh"))
-//                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<Void> task) {
-//                            if(task.isSuccessful())
-//                                Toast.makeText(holder.context, "Added successfully", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//                }
-//                else{
-//                    Toast.makeText(holder.context, "Memebr already exist", Toast.LENGTH_SHORT).show();
-//                }
-                panelList.clear();
             }
         });
-
-
-
-//        holder.imageButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                FirebaseDatabase.getInstance().getReference()
-//                        .child("PanelMember")
-//                        .child("xxxxx")
-//                        .push().setValue()
-//            }
-//        });
     }
 
     @NonNull

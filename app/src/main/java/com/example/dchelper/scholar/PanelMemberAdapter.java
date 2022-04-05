@@ -1,22 +1,22 @@
 package com.example.dchelper.scholar;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dchelper.R;
-import com.example.dchelper.admin.faculty.FacultyAdapter;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
-import com.orhanobut.dialogplus.Holder;
 
 public class PanelMemberAdapter extends FirebaseRecyclerAdapter<PanelMember,PanelMemberAdapter.PanelMemberHolder> {
     /**
@@ -25,19 +25,21 @@ public class PanelMemberAdapter extends FirebaseRecyclerAdapter<PanelMember,Pane
      *
      * @param options
      */
+    FirebaseUser user;
     public PanelMemberAdapter(@NonNull FirebaseRecyclerOptions<PanelMember> options) {
         super(options);
+        user= FirebaseAuth.getInstance().getCurrentUser();
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull PanelMemberHolder holder, int position, @NonNull PanelMember model) {
+    protected void onBindViewHolder(@NonNull PanelMemberHolder holder, @SuppressLint("RecyclerView") int position, @NonNull PanelMember model) {
         holder.textView.setText(model.getFacultyName());
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FirebaseDatabase.getInstance().getReference()
-                        .child("PanelMember")
+                        .child(user.getUid()).child("PanelMember").child("DC")
                         .child(getRef(position).getKey())
                         .removeValue();
             }
