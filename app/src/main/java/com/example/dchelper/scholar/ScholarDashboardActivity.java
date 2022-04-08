@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.dchelper.R;
 import com.example.dchelper.login.LoginActivity;
@@ -19,6 +20,21 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class ScholarDashboardActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     BottomNavigationView bottomNavigationView;
+    private long backPressedTime;
+    private Toast backToast;
+
+    @Override
+    public void onBackPressed() {
+        if(backPressedTime+2000>System.currentTimeMillis()){
+            backToast.cancel();
+            super.onBackPressed();
+            finish();
+        }else {
+            backToast= Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT);
+            backToast.show();
+        }
+        backPressedTime=System.currentTimeMillis();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,6 +1,7 @@
 package com.example.dchelper.admin.venue;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -35,6 +36,9 @@ public class AddVenueActivity extends AppCompatActivity {
                 DatabaseReference myRef = database.getReference().child("venueList");
                 String f_name =name.getText().toString();
                 String fid=id.getText().toString();
+                AlertDialog alertDialog=new AlertDialog.Builder(AddVenueActivity.this).create();
+                alertDialog.setTitle("Alert");
+                alertDialog.setMessage("Please wait...");
                 if(f_name.length()==0)
                     Toast.makeText(AddVenueActivity.this, "Venue name missing", Toast.LENGTH_SHORT).show();
                 else if(fid.length()==0)
@@ -42,16 +46,19 @@ public class AddVenueActivity extends AppCompatActivity {
                 else if(f_name.length()==0 && fid.length()==0)
                     Toast.makeText(AddVenueActivity.this, "Please enter details", Toast.LENGTH_SHORT).show();
                 else{
+                    alertDialog.show();
                     myRef.push().setValue(new Faculty(f_name,fid)).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
                                 Toast.makeText(AddVenueActivity.this, "Venue added successfully", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(AddVenueActivity.this, VenueListActivity.class));
+                                alertDialog.dismiss();
                                 finish();
                             }
+
                         }
-                    });}
+                    });
+                }
             }
         });
     }

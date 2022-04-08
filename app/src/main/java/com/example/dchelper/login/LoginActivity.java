@@ -71,7 +71,8 @@ public class LoginActivity extends AppCompatActivity {
         if(account!=null){
             if(account.getEmail().equals("dchelper23@gmail.com"))
                 startActivity(new Intent(this,AdminDashboardActivity.class));
-            else if(account.getEmail().endsWith("@nitc.ac.in") && account.getEmail().contains("_b"))
+            else if(account.getEmail().endsWith("@nitc.ac.in") && account.getEmail().contains("_p") ||
+                    account.getEmail().endsWith("@nitc.ac.in") && account.getEmail().contains("_b"))
                 startActivity(new Intent(this,ScholarDashboardActivity.class));
             finish();
         }

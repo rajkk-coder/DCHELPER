@@ -2,6 +2,9 @@ package com.example.dchelper.admin.venue;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,10 +45,15 @@ public class VenueAdapter extends FirebaseRecyclerAdapter<Venue, VenueAdapter.Ve
     @Override
     protected void onBindViewHolder(@NonNull VenueHolder holder, @SuppressLint("RecyclerView") int position, @NonNull Venue model) {
         holder.name.setText(model.getName());
+        String str=model.getName();
         holder.book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Bundle bundle= new Bundle();
+                bundle.putString("venue",str);
+                Intent intent=new Intent(view.getContext(),BookVenue.class);
+                intent.putExtras(bundle);
+                holder.context.startActivity(intent);
             }
         });
         holder.edit.setOnClickListener(new View.OnClickListener() {
@@ -101,8 +109,10 @@ public class VenueAdapter extends FirebaseRecyclerAdapter<Venue, VenueAdapter.Ve
         TextView name;
         ImageView book;
         ImageButton edit;
+        private final Context context;
         public VenueHolder(@NonNull View itemView) {
             super(itemView);
+            context=itemView.getContext();
             name=itemView.findViewById(R.id.v_name);
             book=itemView.findViewById(R.id.v_book);
             edit=itemView.findViewById(R.id.v_edit);

@@ -61,16 +61,4 @@ public class managePanelMembers extends AppCompatActivity {
         super.onStop();
         panelMemberAdapter.stopListening();
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        panelMemberAdapter.startListening();
-    }
-
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        panelMemberAdapter.startListening();
-    }
 }

@@ -1,5 +1,6 @@
 package com.example.dchelper.scholar;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -23,6 +24,16 @@ public class addPanelMembers extends AppCompatActivity {
     public ArrayList<Faculty>faculties;
     DatabaseReference db=FirebaseDatabase.getInstance().getReference();
     PanelAdapter panelAdapter;
+
+    @Override
+    public void onBackPressed() {
+
+//        getIntent().putExtra("hello","hlo");
+        setResult(Activity.RESULT_CANCELED,getIntent().putExtra("hello","hlo"));
+        finish();
+        super.onBackPressed();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +47,7 @@ public class addPanelMembers extends AppCompatActivity {
         panelAdapter=new PanelAdapter(this,faculties);
         recyclerView.setAdapter(panelAdapter);
         retrieveData();
-        Toast.makeText(addPanelMembers.this, "hell "+faculties.size(), Toast.LENGTH_SHORT).show();
+
     }
 
     private void retrieveData(){

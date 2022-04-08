@@ -11,8 +11,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.*;
-
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -22,12 +20,18 @@ import com.example.dchelper.login.LoginActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class FirstFragment extends Fragment {
@@ -48,9 +52,8 @@ public class FirstFragment extends Fragment {
         user=FirebaseAuth.getInstance().getCurrentUser();
         if(user!=null)
             welcome.setText(user.getDisplayName());
-        //Button logout=view.findViewById(R.id.scholarLogout);
         ImageButton logout=view.findViewById(R.id.firstFragment);
-        
+
         //CardView
         CardView cardView=view.findViewById(R.id.dash_cardView);
         TextView venue=view.findViewById(R.id.dash_venue);
@@ -65,7 +68,7 @@ public class FirstFragment extends Fragment {
                 .child("scholars")
                 .child(user.getUid())
                 .child("UpComingEvent")
-                .addValueEventListener(new ValueEventListener() {
+                .addListenerForSingleValueEvent(new ValueEventListener() {
                     @SuppressLint("ResourceAsColor")
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -73,15 +76,81 @@ public class FirstFragment extends Fragment {
                             Slot slot = null;
                             for (DataSnapshot dt:snapshot.getChildren())
                                 slot=dt.getValue(Slot.class);
-                            venue.setText(slot.getVenue());
-                            status.setText(slot.getStatus());
-                            if(slot.getStatus().equals("Blocked"))
-                                status.setTextColor(R.color.purple_200);
-                            else
-                                status.setTextColor(R.color.teal_700);
-                            time.setText(slot.getStart_time()+"-"+slot.getEnd_time());
-                            date.setText(slot.getDate());
-                            cardView.setVisibility(View.VISIBLE);
+                            long difference_In_Time = 0;
+
+                            assert slot != null;
+                            if(slot.getStatus().equals("Blocked")){
+                                @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf
+                                        = new SimpleDateFormat(
+                                        "dd-MM-yyyy HH:mm:ss");
+                                String end_date = sdf.format(new Date());
+                                String start_date = slot.getCurrentDateAndTime();
+                                try {
+                                    Date d1 = sdf.parse(start_date);
+                                    Date d2 = sdf.parse(end_date);
+                                    assert d2 != null;
+                                    assert d1 != null;
+                                    difference_In_Time
+                                            = d2.getTime() - d1.getTime();
+                                }
+                                catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                if(difference_In_Time > 60*1000) {
+                                    FirebaseDatabase.getInstance().getReference()
+                                            .child("scholars")
+                                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                            .child("UpComingEvent")
+                                            .removeValue();
+                                }
+                                else {
+                                    venue.setText(slot.getVenue());
+                                    status.setText(slot.getStatus());
+                                    status.setTextColor(R.color.purple_200);
+                                    time.setText(slot.getStart_time() + "-" + slot.getEnd_time());
+                                    date.setText(slot.getDate());
+                                    cardView.setVisibility(View.VISIBLE);
+                                }
+                            }
+                            else{
+                                @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf
+                                        = new SimpleDateFormat(
+                                        "dd-MM-yyyy HH:mm:ss");
+                                String end_date = slot.getDate() +" "+ slot.getEnd_time() +":00";
+                                String start_date = sdf.format(new Date());
+                                try {
+                                    Date d1 = sdf.parse(start_date);
+                                    Date d2 = sdf.parse(end_date);
+                                    assert d2 != null;
+                                    assert d1 != null;
+                                    difference_In_Time
+                                            = d1.getTime() - d2.getTime();
+                                }
+                                catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                if(difference_In_Time > 0) {
+                                    FirebaseDatabase.getInstance().getReference()
+                                            .child("scholars")
+                                            .child(user.getUid())
+                                            .child("History")
+                                    .push().setValue(slot);
+
+                                    FirebaseDatabase.getInstance().getReference()
+                                            .child("scholars")
+                                            .child(user.getUid())
+                                            .child("UpComingEvent").removeValue();
+                                }
+                                else {
+                                    venue.setText(slot.getVenue());
+                                    status.setText(slot.getStatus());
+                                    status.setTextColor(R.color.teal_700);
+                                    time.setText(slot.getStart_time() + "-" + slot.getEnd_time());
+                                    date.setText(slot.getDate());
+                                    cardView.setVisibility(View.VISIBLE);
+                                }
+
+                            }
                         }
                     }
 
@@ -91,28 +160,70 @@ public class FirstFragment extends Fragment {
                     }
                 });
 
-        cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //You can pass "status"
-                Toast.makeText(getContext(), "Sreyansh Your Task !!!!", Toast.LENGTH_SHORT).show();
-            }
+        cardView.setOnClickListener(view1 -> {
+            //You can pass "status"
+            FirebaseDatabase.getInstance().getReference()
+                    .child("scholars")
+                    .child(user.getUid())
+                    .child("UpComingEvent")
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @SuppressLint("ResourceAsColor")
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if(snapshot.exists()){
+                                Slot slot = null;
+                                String path="";
+                                for (DataSnapshot dt:snapshot.getChildren()){
+                                    slot=dt.getValue(Slot.class);
+                                    path= dt.getKey();
+                                }
+                                assert slot != null;
+                                venue.setText(slot.getVenue());
+                                status.setText(slot.getStatus());
+
+                                if(slot.getStatus().equals("Blocked")){
+                                    Intent intent=new Intent(getContext(),BookABlockedSlot.class);
+                                    Bundle bundle=new Bundle();
+                                    bundle.putString("date",slot.getDate());
+                                    bundle.putString("start_time",slot.getStart_time());
+                                    bundle.putString("end_time",slot.getEnd_time());
+                                    bundle.putString("venue",slot.getVenue());
+                                    bundle.putString("Mode","DC");
+                                    bundle.putString("owner",slot.getOwner());
+                                    bundle.putString("path",path);
+                                    intent.putExtras(bundle);
+                                    startActivity(intent);
+                                }
+                                else{
+                                    Intent intent=new Intent(getContext(),CancelASlot.class);
+                                    Bundle bundle=new Bundle();
+                                    bundle.putString("date",slot.getDate());
+                                    bundle.putString("start_time",slot.getStart_time());
+                                    bundle.putString("end_time",slot.getEnd_time());
+                                    bundle.putString("venue",slot.getVenue());
+                                    bundle.putString("Mode","Dc");
+                                    bundle.putString("owner",slot.getOwner());
+                                    intent.putExtras(bundle);
+                                    startActivity(intent);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
         });
-        
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(getContext(),managePanelMembers.class);
-                startActivity(intent);
-            }
+
+        btn.setOnClickListener(view12 -> {
+            Intent intent=new Intent(getContext(),managePanelMembers.class);
+            startActivity(intent);
         });
-        
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signOut();
-                startActivity(new Intent(getContext(),LoginActivity.class));
-            }
+
+        logout.setOnClickListener(view13 -> {
+            signOut();
+            startActivity(new Intent(getContext(),LoginActivity.class));
         });
         return view;
     }
@@ -123,7 +234,7 @@ public class FirstFragment extends Fragment {
                 .requestIdToken(token)
                 .requestEmail()
                 .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(getView().getContext(), gso);
+        mGoogleSignInClient = GoogleSignIn.getClient(requireView().getContext(), gso);
         mGoogleSignInClient.signOut();
     }
 }

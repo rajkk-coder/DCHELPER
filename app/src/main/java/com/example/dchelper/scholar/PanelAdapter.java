@@ -54,9 +54,9 @@ public class PanelAdapter extends RecyclerView.Adapter<PanelAdapter.MemberViewHo
         holder.add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatabaseReference myRef=FirebaseDatabase.getInstance().getReference()
+                DatabaseReference myRef=FirebaseDatabase.getInstance().getReference().child("scholars")
                         .child(user.getUid()).child("PanelMember").child("DC");
-                myRef.addValueEventListener(new ValueEventListener() {
+                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         int flag=0;
@@ -65,8 +65,9 @@ public class PanelAdapter extends RecyclerView.Adapter<PanelAdapter.MemberViewHo
                                 if (flag==0 && panelMember.getFacultyName().equals(faculties.get(position).getName())){
                                     flag=1;
                                     holder.checkBox.setVisibility(View.VISIBLE);
+                                    Toast.makeText(context, "Faculty already present", Toast.LENGTH_SHORT).show();
+                                    break;
                                 }
-
                         }
 
                         if (flag==0){
@@ -81,6 +82,7 @@ public class PanelAdapter extends RecyclerView.Adapter<PanelAdapter.MemberViewHo
                                     if(task.isSuccessful()){
                                         Toast.makeText(context, "Added Successfully", Toast.LENGTH_SHORT).show();
                                         holder.add.setVisibility(View.GONE);
+                                        holder.add.setClickable(false);
                                         holder.checkBox.setVisibility(View.VISIBLE);
 
                                     }

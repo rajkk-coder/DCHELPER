@@ -8,6 +8,22 @@ public class Slot {
     private String date;
     private String status;
 
+    public String getCurrentDateAndTime() {
+        return currentDateAndTime;
+    }
+
+    public Slot(String owner, String start_time, String end_time, String venue, String date, String status, String currentDateAndTime) {
+        this.owner = owner;
+        this.start_time = start_time;
+        this.end_time = end_time;
+        this.venue = venue;
+        this.date = date;
+        this.status = status;
+        this.currentDateAndTime = currentDateAndTime;
+    }
+
+    private String currentDateAndTime;
+
     public Slot() {
     }
 
@@ -18,6 +34,14 @@ public class Slot {
         this.venue = venue;
         this.date = date;
         this.status = status;
+    }
+
+    public Slot(String owner, String userStartTime, String userEndTime, String venue, String date) {
+        this.owner = owner;
+        this.start_time = userStartTime;
+        this.end_time = userEndTime;
+        this.venue = venue;
+        this.date = date;
     }
 
     public String getOwner() {

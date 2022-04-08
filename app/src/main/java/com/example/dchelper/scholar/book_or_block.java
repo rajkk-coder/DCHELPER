@@ -1,5 +1,6 @@
 package com.example.dchelper.scholar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,12 +11,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.dchelper.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class book_or_block extends AppCompatActivity {
@@ -44,7 +50,6 @@ public class book_or_block extends AppCompatActivity {
         String slotEndTime=bundle.getString("slot_end_time");
         String slot_path=bundle.getString("reference");
         Slot slot = new Slot(owner,userStartTime, userEndTime, venue, date,"book");
-        Toast.makeText(this, "not null", Toast.LENGTH_SHORT).show();
 
         TextView b_name=findViewById(R.id.book_name);
         b_name.setText("Name:"+slot.getOwner());
@@ -64,53 +69,63 @@ public class book_or_block extends AppCompatActivity {
                 db.child("slot")
                         .child(date)
                         .child(venue).child(slot_path)
-                        .removeValue();
-
+                        .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(!task.isSuccessful()){
+                            Toast.makeText(book_or_block.this, "Something went wrong!!", Toast.LENGTH_SHORT).show();
+                            Intent intent=new Intent(book_or_block.this , ScholarDashboardActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+                });
                 DatabaseReference myRef=db
                         .child("slot")
                         .child(date)
                         .child(venue);
-
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault());
+                    String currentDateAndTime = sdf.format(new Date());
                 if(slotStartTime.equals(userStartTime)){
                     if(slotEndTime.equals(userEndTime)){
-                        myRef.push().setValue(new Slot(owner,slotStartTime,slotEndTime,venue,date,"Blocked"));
+
+                        myRef.push().setValue(new Slot(owner,slotStartTime,slotEndTime,venue,date,"Blocked",currentDateAndTime));
                         db.child("scholars").child(user.getUid())
                                 .child("UpComingEvent")
-                                .push().setValue(new Slot(owner,slotStartTime,slotEndTime,venue,date,"Blocked"));
+                                .push().setValue(new Slot(owner,slotStartTime,slotEndTime,venue,date,"Blocked",currentDateAndTime));
                     }
                     else{
                         //2 slot case
-                        myRef.push().setValue(new Slot(owner,slotStartTime,userEndTime,venue,date,"Blocked"));
+                        myRef.push().setValue(new Slot(owner,slotStartTime,userEndTime,venue,date,"Blocked",currentDateAndTime));
                         myRef.push().setValue(new Slot("free",userEndTime,slotEndTime,venue,date,"free"));
-                        db.child("scholars").child(user.getUid()).child("UpcomingEvent")
-                                .push().setValue(new Slot(owner,slotStartTime,userEndTime,venue,date,"Blocked"));
+                        db.child("scholars").child(user.getUid()).child("UpComingEvent")
+                                .push().setValue(new Slot(owner,slotStartTime,userEndTime,venue,date,"Blocked",currentDateAndTime));
                     }
                 }
                 else if(slotEndTime.equals(userEndTime)){
                     //2 wala case
 
                     myRef.push().setValue(new Slot("free",slotStartTime,userStartTime,venue,date,"free"));
-                    myRef.push().setValue(new Slot(owner,userStartTime,slotEndTime,venue,date,"Blocked"));
+                    myRef.push().setValue(new Slot(owner,userStartTime,slotEndTime,venue,date,"Blocked",currentDateAndTime));
                     db.child("scholars").child(user.getUid())
                             .child("UpComingEvent")
-                            .push().setValue(new Slot(owner,userStartTime,slotEndTime,venue,date,"Blocked"));
+                            .push().setValue(new Slot(owner,userStartTime,slotEndTime,venue,date,"Blocked",currentDateAndTime));
                 }
                 else{
                     //3 wala case
 
                     myRef.push().setValue(new Slot("free",slotStartTime,userStartTime,venue,date,"free"));
 
-                    myRef.push().setValue(new Slot(owner,userStartTime,userEndTime,venue,date,"Blocked"));
+                    myRef.push().setValue(new Slot(owner,userStartTime,userEndTime,venue,date,"Blocked",currentDateAndTime));
 
                     myRef.push().setValue(new Slot("free",userEndTime,slotEndTime,venue,date,"free"));
 
                     db.child("scholars").child(user.getUid())
                             .child("UpComingEvent")
-                            .push().setValue(new Slot(owner,userStartTime,userEndTime,venue,date,"Blocked"));
+                            .push().setValue(new Slot(owner,userStartTime,userEndTime,venue,date,"Blocked",currentDateAndTime));
 
                 }
                 Intent intent=new Intent(book_or_block.this , ScholarDashboardActivity.class);
-                Toast.makeText(book_or_block.this, "Successflly blocked !!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(book_or_block.this, "Successfully blocked !!", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
         });
@@ -118,7 +133,16 @@ public class book_or_block extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 db.child("slot")
-                        .child(date).child(venue).child(slot_path).removeValue();
+                        .child(date).child(venue).child(slot_path).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(!task.isSuccessful()){
+                            Toast.makeText(book_or_block.this, "Something went wrong!!", Toast.LENGTH_SHORT).show();
+                            Intent intent=new Intent(book_or_block.this , ScholarDashboardActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+                });
 
                 DatabaseReference myRef=db
                         .child("slot")

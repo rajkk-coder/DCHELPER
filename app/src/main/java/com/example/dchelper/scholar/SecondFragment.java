@@ -12,6 +12,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -35,6 +37,7 @@ public class SecondFragment extends Fragment {
 
     String startDate="";
     String endDate="";
+    String mode="";
 
     public SecondFragment(){
     }
@@ -49,6 +52,23 @@ public class SecondFragment extends Fragment {
         toDateCalender=view.findViewById(R.id.To_date_calender);
         FromDate.setShowSoftInputOnFocus(false);
         ToDate.setShowSoftInputOnFocus(false);
+
+        RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.radioGroup);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton rb=(RadioButton)view.findViewById(checkedId);
+                if(rb.getText().equals("DC Meeting")){
+                    Toast.makeText(getContext(), "You clicked DC", Toast.LENGTH_SHORT).show();
+                    mode="DC";
+                }
+                else if(rb.getText().equals("Comprehensive Exam")){
+                    Toast.makeText(getContext(), "You clicked CE", Toast.LENGTH_SHORT).show();
+                    mode="CE";
+                }
+            }
+        });
 
 
         //DATE
@@ -69,7 +89,6 @@ public class SecondFragment extends Fragment {
                         else startDate += "/"+month;
                         startDate+="/"+year;
                         FromDate.setText(startDate);
-                        Toast.makeText(getContext(), "startdate", Toast.LENGTH_SHORT).show();
                     }
                 },year,month,day);
                 datePickerDialog.show();
@@ -95,7 +114,6 @@ public class SecondFragment extends Fragment {
                         else endDate += "/"+month;
                         endDate+="/"+year;
                         ToDate.setText(endDate);
-                        Toast.makeText(getContext(), "enddate", Toast.LENGTH_SHORT).show();
                     }
                 },year,month,day);
                 datePickerDialog.show();
@@ -110,13 +128,17 @@ public class SecondFragment extends Fragment {
             public void onClick(View view) {
                 String[] token1=startDate.split("/");
                 String[] token2=endDate.split("/");
-                if(token1.length!=3 || token2.length!=3){
+                if(mode==""){
+                    Toast.makeText(getContext(), "Please select a mode for the meeting", Toast.LENGTH_SHORT).show();
+                }
+                else if(token1.length!=3 || token2.length!=3){
                     Toast.makeText(getContext(), "Provide a valid date", Toast.LENGTH_SHORT).show();
                 }
                 else if(Integer.parseInt(token1[2]) < Integer.parseInt(token2[2])){
                     Bundle bundle = new Bundle();
                     bundle.putString("sdate", startDate);
                     bundle.putString("edate", endDate);
+                    bundle.putString("mode",mode);
                     //Number of dates
                     try {
                         String new_start_date=token1[1]+"/"+token1[0]+"/"+token1[2];
@@ -144,6 +166,7 @@ public class SecondFragment extends Fragment {
                         Bundle bundle = new Bundle();
                         bundle.putString("sdate", startDate);
                         bundle.putString("edate", endDate);
+                        bundle.putString("mode",mode);
                         //Number of dates
                         try {
                             String new_start_date=token1[1]+"/"+token1[0]+"/"+token1[2];
@@ -170,6 +193,7 @@ public class SecondFragment extends Fragment {
                             Bundle bundle = new Bundle();
                             bundle.putString("sdate", startDate);
                             bundle.putString("edate", endDate);
+                            bundle.putString("mode",mode);
                             //Number of dates
                             try {
                                 String new_start_date=token1[1]+"/"+token1[0]+"/"+token1[2];
@@ -187,7 +211,7 @@ public class SecondFragment extends Fragment {
                                 Toast.makeText(getContext(), "gone wrong", Toast.LENGTH_SHORT).show();
                             }
                             //Number of dates
-                            Intent intent=new Intent(getContext(), GetDateActivity.class);
+                            Intent intent=new Intent(getContext(), chooseVenue.class);
                             intent.putExtras(bundle);
                             startActivity(intent);
                         }
@@ -202,13 +226,8 @@ public class SecondFragment extends Fragment {
                 else{
                     Toast.makeText(getContext(), "Invalid date range", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
-
-        progressbar=view.findViewById(R.id.progress_bar);
-        progressbar.setProgress(25);
-        progressbar.setMax(100);
         return view;
     }
 

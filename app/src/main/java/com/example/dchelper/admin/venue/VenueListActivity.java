@@ -20,9 +20,9 @@ public class VenueListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_venue_list);
-
         //FloatingActionButton add_venues
         FloatingActionButton button=findViewById(R.id.add_venue);
+
         button.setOnClickListener(view -> startActivity(new Intent(VenueListActivity.this, AddVenueActivity.class)));
 
         //For Scattering faculties
@@ -36,6 +36,7 @@ public class VenueListActivity extends AppCompatActivity {
                         .setQuery(query, Venue.class)
                         .build();
         venueAdapter =new VenueAdapter(options);
+        venueAdapter.startListening();
         recyclerView.setAdapter(venueAdapter);
 
 
@@ -43,7 +44,8 @@ public class VenueListActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        venueAdapter.startListening();
+//       venueAdapter.startListening();
+
     }
 
     @Override

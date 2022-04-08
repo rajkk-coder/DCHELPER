@@ -44,6 +44,7 @@ public class FacultyListActivity extends AppCompatActivity {
                         .build();
 
         facultyAdapter=new FacultyAdapter(options);
+        facultyAdapter.startListening();
         recyclerView.setAdapter(facultyAdapter);
 
     }
@@ -51,7 +52,7 @@ public class FacultyListActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        facultyAdapter.startListening();
+
     }
 
     @Override

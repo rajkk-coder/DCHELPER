@@ -1,15 +1,9 @@
 package com.example.dchelper.scholar;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dchelper.R;
-import com.example.dchelper.admin.venue.Venue;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,23 +21,18 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public class GetDateActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class GetDateActivity extends AppCompatActivity {
 
     ArrayList<SlotAdapter>slotAdapter;
-    String venue="Aryabhat";
-    Spinner mySpinner;
-    ValueEventListener listener;
-    ArrayAdapter<String> adapter;
+    String venue;
     String NoOfDates;
-    ArrayList<String> spinnerDataList;
-    DatabaseReference databaseReference;
+    String mode;
     List<Date> dates = new ArrayList<>();
     List<String> req_for_date=new ArrayList<>();
 
@@ -58,27 +46,11 @@ public class GetDateActivity extends AppCompatActivity implements AdapterView.On
         NoOfDates = bundle.getString("noOfDates");
         String start_date = bundle.getString("sdate");
         String end_date = bundle.getString("edate");
+        venue=bundle.getString("venue");
+        mode=bundle.getString("mode");
         slotAdapter=new ArrayList<>(Integer.parseInt(NoOfDates));
 
-        Toast.makeText(this, NoOfDates, Toast.LENGTH_SHORT).show();
-        //Retrieve from bundle
-
-        //Spinner
         LinearLayout layout = (LinearLayout) findViewById(R.id.scroll_dates);
-        databaseReference=FirebaseDatabase.getInstance().getReference("venueList");
-        spinnerDataList=new ArrayList<>();
-        adapter=new ArrayAdapter<String>(GetDateActivity.this, android.R.layout.simple_spinner_dropdown_item,spinnerDataList);
-
-        mySpinner = (Spinner) findViewById(R.id.spinner1);
-        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(GetDateActivity.this,
-                android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.names));
-
-        mySpinner.setAdapter(adapter);
-        retrieveDatavenue();
-        Toast.makeText(this, "values in adapter"+adapter.getCount(), Toast.LENGTH_SHORT).show();
-        mySpinner.setOnItemSelectedListener(this);
-        //Spinner
-
         try {
             String[] token1 = start_date.split("/");
             String[] token2 = end_date.split("/");
@@ -108,14 +80,10 @@ public class GetDateActivity extends AppCompatActivity implements AdapterView.On
             req_for_date.add(DATE_FORMAT.format(dates.get(i)));
         }
 
-
-
-
-
         //Horizontal Scrollbar
         FrameLayout layout2=(FrameLayout) findViewById(R.id.xyz);
 
-        retrieveData();
+       retrieveData();
         List<Button> list = new ArrayList<>();
         for(int i = 0; i<Integer.parseInt(NoOfDates)+1 ; i++) {
             //create the button
@@ -132,14 +100,11 @@ public class GetDateActivity extends AppCompatActivity implements AdapterView.On
             temp.setLayoutManager(new LinearLayoutManager(this));
             temp.setAdapter(slotAdapter.get(i));
 
-            btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(GetDateActivity.this, venue, Toast.LENGTH_SHORT).show();
-                    layout2.removeViewAt(0);
-                    layout2.addView(temp);
+            btn.setOnClickListener(view -> {
+
+                layout2.removeViewAt(0);
+                layout2.addView(temp);
 //                    purana[0] =temp;
-                }
             });
             i++;
         }
@@ -155,15 +120,15 @@ public class GetDateActivity extends AppCompatActivity implements AdapterView.On
             query=myRef.orderByChild("start_time");
             String str=req_for_date.get(i);
             final int[] restricter = {0};
-            myRef.addValueEventListener(new ValueEventListener() {
+            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if(!snapshot.exists() && restricter[0] ==0){
                         FirebaseDatabase.getInstance().getReference()
-                                .child("slot")
-                                .child(str)
-                                .child(venue)
-                                .push().setValue(new Slot("free","08:00","18:00",venue,str,"free"));
+                        .child("slot")
+                        .child(str)
+                        .child(venue)
+                        .push().setValue(new Slot("free","08:00","18:00",venue,str,"free"));
                         restricter[0]=1;
                     }
                 }
@@ -175,20 +140,11 @@ public class GetDateActivity extends AppCompatActivity implements AdapterView.On
 
             });
 
-            //query.get()
             FirebaseRecyclerOptions<Slot> options =
                     new FirebaseRecyclerOptions.Builder<Slot>()
                             .setQuery(query, Slot.class)
                             .build();
-//
-//            if (options == null) {
-//
-//
-//                options =
-//                        new FirebaseRecyclerOptions.Builder<Slot>()
-//                                .setQuery(query, Slot.class)
-//                                .build();
-//            }
+
             slotAdapter.add(new SlotAdapter(options));
         }
 
@@ -206,33 +162,5 @@ public class GetDateActivity extends AppCompatActivity implements AdapterView.On
         super.onStart();
         for (int i=0;i<Integer.parseInt(NoOfDates)+1;i++)
             slotAdapter.get(i).startListening();
-    }
-
-    public void retrieveDatavenue(){
-        listener=databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot item:snapshot.getChildren()){
-                    spinnerDataList.add(item.getValue(Venue.class).getName());
-                }
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        venue=""+adapterView.getItemAtPosition(i);
-        Toast.makeText(this, venue, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
     }
 }
