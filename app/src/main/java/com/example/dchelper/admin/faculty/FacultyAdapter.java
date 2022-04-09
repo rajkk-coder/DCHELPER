@@ -10,14 +10,24 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dchelper.R;
+import com.example.dchelper.scholar.panelMembers.PanelMember;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
 
@@ -32,6 +42,9 @@ public class FacultyAdapter extends FirebaseRecyclerAdapter<Faculty, FacultyAdap
      *
      * @param options
      */
+    FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
+    DatabaseReference db=FirebaseDatabase.getInstance().getReference();
+
     public FacultyAdapter(@NonNull FirebaseRecyclerOptions<Faculty> options) {
         super(options);
     }
@@ -57,13 +70,73 @@ public class FacultyAdapter extends FirebaseRecyclerAdapter<Faculty, FacultyAdap
                 name.setText(model.getName());
                 id.setText(model.getId());
                 dialogPlus.show();
+
                 btn_delete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        FirebaseDatabase.getInstance().getReference()
-                                .child("facultyList")
-                                .child(getRef(position).getKey())
-                                .removeValue();
+                        String facultyName=model.getName();
+                        db.child("facultyList").child(getRef(position).getKey()).removeValue()
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful()){
+                                    db.child("scholars").addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                            //Delete faculty from DC panel
+                                            for(DataSnapshot data:snapshot.getChildren()){
+                                                data.getRef().child("PanelMember").child("DC").addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                        for (DataSnapshot data:snapshot.getChildren()){
+                                                            PanelMember panelMember=data.getValue(PanelMember.class);
+                                                            if(facultyName.equals(panelMember.getFacultyName())){
+                                                                data.getRef().removeValue();
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                                    }
+                                                });
+
+                                            }
+
+                                            //Delete faculty from CE panel
+                                            for(DataSnapshot data:snapshot.getChildren()){
+                                                data.getRef().child("PanelMember").child("CE").addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                        for (DataSnapshot data:snapshot.getChildren()){
+                                                            PanelMember panelMember=data.getValue(PanelMember.class);
+                                                            if(panelMember.getFacultyName().equals(name)){
+                                                                data.getRef().removeValue();
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                                    }
+                                                });
+
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+                                }
+                            }
+                        });
                         dialogPlus.dismiss();
                     }
                 });

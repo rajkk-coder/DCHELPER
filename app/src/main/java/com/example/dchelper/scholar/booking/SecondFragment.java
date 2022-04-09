@@ -1,4 +1,4 @@
-package com.example.dchelper.scholar;
+package com.example.dchelper.scholar.booking;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -20,16 +19,14 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import com.example.dchelper.R;
+import com.example.dchelper.scholar.booking.GetDateActivity;
+import com.example.dchelper.scholar.booking.chooseVenue;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Objects;
 
 public class SecondFragment extends Fragment {
-    private ProgressBar progressbar;
     EditText FromDate;
     EditText ToDate;
     ImageView fromDateCalender;
@@ -91,6 +88,7 @@ public class SecondFragment extends Fragment {
                         FromDate.setText(startDate);
                     }
                 },year,month,day);
+                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis()-1000);
                 datePickerDialog.show();
             }
         });
@@ -116,6 +114,7 @@ public class SecondFragment extends Fragment {
                         ToDate.setText(endDate);
                     }
                 },year,month,day);
+                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis()-1000);
                 datePickerDialog.show();
             }
         });

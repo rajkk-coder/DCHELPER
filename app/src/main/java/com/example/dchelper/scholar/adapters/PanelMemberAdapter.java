@@ -1,4 +1,4 @@
-package com.example.dchelper.scholar;
+package com.example.dchelper.scholar.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dchelper.R;
+import com.example.dchelper.scholar.panelMembers.PanelMember;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;

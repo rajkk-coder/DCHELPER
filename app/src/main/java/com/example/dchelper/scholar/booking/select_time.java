@@ -1,22 +1,20 @@
-package com.example.dchelper.scholar;
+package com.example.dchelper.scholar.booking;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.dchelper.R;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Calendar;
 
@@ -33,6 +31,17 @@ public class select_time extends AppCompatActivity {
     int end_time;
     int slot_start;
     int slot_end;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==911){
+            Intent intent=new Intent(this,GetDateActivity.class);
+            setResult(911,intent);
+            startActivity(intent);
+            finish();}
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +58,7 @@ public class select_time extends AppCompatActivity {
         String date=bundle1.getString("date");
         String slot_start_time=bundle1.getString("slot_start_time");
         String slot_end_time=bundle1.getString("slot_end_time");
+        String mode=bundle1.getString("mode");
         String slot_path=bundle1.getString("reference");
 
         //START TIME
@@ -110,27 +120,48 @@ public class select_time extends AppCompatActivity {
                 slot_start=Integer.parseInt(token3[0])*60+Integer.parseInt(token3[1]);
                 slot_end=Integer.parseInt(token4[0])*60+Integer.parseInt(token4[1]);
 
-                if(slot_start<=start_time && slot_end>=end_time && start_time<end_time && end_time-start_time<=60) {
+                if(mode.equals("DC")){
+                    if(slot_start<=start_time && slot_end>=end_time && start_time<end_time && end_time-start_time<=60) {
+                        Toast.makeText(select_time.this, "DC is selected", Toast.LENGTH_SHORT).show();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("stime", startTime);
+                        bundle.putString("etime", endTime);
+                        bundle.putString("venue", venue);
+                        bundle.putString("date",date);
+                        bundle.putString("slot_start_time",slot_start_time);
+                        bundle.putString("slot_end_time",slot_end_time);
+                        bundle.putString("mode",mode);
+                        bundle.putString("reference",slot_path);
+                        Intent intent=new Intent(select_time.this, book_or_block.class);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
+                    else{
+                        Toast.makeText(select_time.this, "Incorrect timing", Toast.LENGTH_SHORT).show();
+                    }
 
-                    Bundle bundle = new Bundle();
-                    bundle.putString("stime", startTime);
-                    bundle.putString("etime", endTime);
-                    bundle.putString("venue", venue);
-                    bundle.putString("date",date);
-                    bundle.putString("slot_start_time",slot_start_time);
-                    bundle.putString("slot_end_time",slot_end_time);
-                    bundle.putString("reference",slot_path);
-                    Intent intent=new Intent(select_time.this, book_or_block.class);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
                 }
-                else{
-                    Toast.makeText(select_time.this, "Incorrect timing", Toast.LENGTH_SHORT).show();
+                else if(mode.equals("CE")){
+                    if(slot_start<=start_time && slot_end>=end_time && start_time<end_time && end_time-start_time<=120) {
+                        Toast.makeText(select_time.this, "CE is selected", Toast.LENGTH_SHORT).show();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("stime", startTime);
+                        bundle.putString("etime", endTime);
+                        bundle.putString("venue", venue);
+                        bundle.putString("date",date);
+                        bundle.putString("slot_start_time",slot_start_time);
+                        bundle.putString("slot_end_time",slot_end_time);
+                        bundle.putString("mode",mode);
+                        bundle.putString("reference",slot_path);
+                        Intent intent=new Intent(select_time.this, book_or_block.class);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
+                    else{
+                        Toast.makeText(select_time.this, "Incorrect timing", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
-//        progressbar=findViewById(R.id.progress_bar);
-//        progressbar.setProgress(75);
-//        progressbar.setMax(100);
     }
 }

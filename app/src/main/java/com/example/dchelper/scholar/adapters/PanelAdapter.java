@@ -1,11 +1,10 @@
-package com.example.dchelper.scholar;
+package com.example.dchelper.scholar.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dchelper.R;
 import com.example.dchelper.admin.faculty.Faculty;
+import com.example.dchelper.scholar.panelMembers.PanelMember;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;

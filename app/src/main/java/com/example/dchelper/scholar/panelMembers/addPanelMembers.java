@@ -1,8 +1,7 @@
-package com.example.dchelper.scholar;
+package com.example.dchelper.scholar.panelMembers;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dchelper.R;
 import com.example.dchelper.admin.faculty.Faculty;
+import com.example.dchelper.scholar.adapters.PanelAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,7 +28,6 @@ public class addPanelMembers extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-//        getIntent().putExtra("hello","hlo");
         setResult(Activity.RESULT_CANCELED,getIntent().putExtra("hello","hlo"));
         finish();
         super.onBackPressed();

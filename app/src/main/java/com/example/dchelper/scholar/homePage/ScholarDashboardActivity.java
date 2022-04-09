@@ -1,20 +1,15 @@
-package com.example.dchelper.scholar;
+package com.example.dchelper.scholar.homePage;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.dchelper.R;
-import com.example.dchelper.login.LoginActivity;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.example.dchelper.scholar.booking.SecondFragment;
+import com.example.dchelper.scholar.history.ThirdFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ScholarDashboardActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {

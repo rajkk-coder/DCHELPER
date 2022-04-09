@@ -13,34 +13,34 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Dchelper" >
         <activity
-            android:name=".scholar.chooseVenue"
+            android:name=".scholar.booking.chooseVenue"
             android:exported="false" />
         <activity
             android:name=".admin.venue.BookVenue"
             android:exported="false" />
         <activity
-            android:name=".scholar.BookABlockedSlot"
+            android:name=".scholar.homePage.BookABlockedSlot"
             android:exported="false" />
         <activity
-            android:name=".scholar.CancelASlot"
+            android:name=".scholar.homePage.CancelASlot"
             android:exported="false" />
         <activity
-            android:name=".scholar.book_or_block"
+            android:name=".scholar.booking.book_or_block"
             android:exported="false" />
         <activity
-            android:name=".scholar.managePanelMembers"
+            android:name=".scholar.panelMembers.managePanelMembers"
             android:exported="false" />
         <activity
-            android:name=".scholar.GetDateActivity"
+            android:name=".scholar.booking.GetDateActivity"
             android:exported="false" />
         <activity
-            android:name=".scholar.addPanelMembers"
+            android:name=".scholar.panelMembers.addPanelMembers"
             android:exported="false" />
         <activity
-            android:name=".scholar.select_time"
+            android:name=".scholar.booking.select_time"
             android:exported="false" />
         <activity
-            android:name=".scholar.ScholarDashboardActivity"
+            android:name=".scholar.homePage.ScholarDashboardActivity"
             android:exported="false" >
 
         </activity>

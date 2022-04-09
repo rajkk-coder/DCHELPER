@@ -1,4 +1,4 @@
-package com.example.dchelper.scholar;
+package com.example.dchelper.scholar.homePage;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -17,6 +16,8 @@ import androidx.fragment.app.Fragment;
 
 import com.example.dchelper.R;
 import com.example.dchelper.login.LoginActivity;
+import com.example.dchelper.scholar.booking.Slot;
+import com.example.dchelper.scholar.panelMembers.managePanelMembers;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -68,7 +69,7 @@ public class FirstFragment extends Fragment {
                 .child("scholars")
                 .child(user.getUid())
                 .child("UpComingEvent")
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+                .addValueEventListener(new ValueEventListener() {
                     @SuppressLint("ResourceAsColor")
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -182,7 +183,7 @@ public class FirstFragment extends Fragment {
                                 status.setText(slot.getStatus());
 
                                 if(slot.getStatus().equals("Blocked")){
-                                    Intent intent=new Intent(getContext(),BookABlockedSlot.class);
+                                    Intent intent=new Intent(getContext(), BookABlockedSlot.class);
                                     Bundle bundle=new Bundle();
                                     bundle.putString("date",slot.getDate());
                                     bundle.putString("start_time",slot.getStart_time());
@@ -195,7 +196,7 @@ public class FirstFragment extends Fragment {
                                     startActivity(intent);
                                 }
                                 else{
-                                    Intent intent=new Intent(getContext(),CancelASlot.class);
+                                    Intent intent=new Intent(getContext(), CancelASlot.class);
                                     Bundle bundle=new Bundle();
                                     bundle.putString("date",slot.getDate());
                                     bundle.putString("start_time",slot.getStart_time());
@@ -217,13 +218,13 @@ public class FirstFragment extends Fragment {
         });
 
         btn.setOnClickListener(view12 -> {
-            Intent intent=new Intent(getContext(),managePanelMembers.class);
+            Intent intent=new Intent(getContext(), managePanelMembers.class);
             startActivity(intent);
         });
 
         logout.setOnClickListener(view13 -> {
             signOut();
-            startActivity(new Intent(getContext(),LoginActivity.class));
+
         });
         return view;
     }
@@ -235,6 +236,14 @@ public class FirstFragment extends Fragment {
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(requireView().getContext(), gso);
-        mGoogleSignInClient.signOut();
+        mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    startActivity(new Intent(getContext(),LoginActivity.class));
+                    getActivity().getFragmentManager().popBackStack();
+                }
+            }
+        });
     }
 }

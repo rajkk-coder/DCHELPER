@@ -1,4 +1,4 @@
-package com.example.dchelper.scholar;
+package com.example.dchelper.scholar.panelMembers;
 
 public class PanelMember {
     private String FacultyName;

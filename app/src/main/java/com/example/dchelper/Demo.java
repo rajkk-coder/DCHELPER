@@ -2,7 +2,7 @@ package com.example.dchelper;
 
 import androidx.annotation.NonNull;
 
-import com.example.dchelper.scholar.Slot;
+import com.example.dchelper.scholar.booking.Slot;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;

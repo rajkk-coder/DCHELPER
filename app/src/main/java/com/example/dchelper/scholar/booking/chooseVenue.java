@@ -1,4 +1,4 @@
-package com.example.dchelper.scholar;
+package com.example.dchelper.scholar.booking;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -85,5 +85,6 @@ public class chooseVenue extends AppCompatActivity {
                         }
                     }
                 });
+
     }
 }

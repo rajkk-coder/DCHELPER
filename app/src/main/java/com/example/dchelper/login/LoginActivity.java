@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dchelper.R;
 import com.example.dchelper.admin.AdminDashboardActivity;
-import com.example.dchelper.scholar.ScholarDashboardActivity;
+import com.example.dchelper.scholar.homePage.ScholarDashboardActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
