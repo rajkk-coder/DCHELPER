@@ -10,7 +10,7 @@
     <FrameLayout
         android:id="@+id/frameLayout3"
         android:layout_width="wrap_content"
-        android:layout_height="60dp"
+        android:layout_height="80dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -19,11 +19,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/rectangle2"
-            android:paddingTop="12dp"
-            android:text="DC Meeting"
+            android:paddingTop="20dp"
+            android:text="Book A Meeting"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="24sp"
+            android:textSize="30sp"
             android:textStyle="bold" />
 
         <View

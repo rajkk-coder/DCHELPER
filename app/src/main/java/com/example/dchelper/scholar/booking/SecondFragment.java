@@ -88,7 +88,7 @@ public class SecondFragment extends Fragment {
                         FromDate.setText(startDate);
                     }
                 },year,month,day);
-                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis()-1000);
+                //datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis()-1000);
                 datePickerDialog.show();
             }
         });
@@ -114,7 +114,7 @@ public class SecondFragment extends Fragment {
                         ToDate.setText(endDate);
                     }
                 },year,month,day);
-                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis()-1000);
+                //datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis()-1000);
                 datePickerDialog.show();
             }
         });

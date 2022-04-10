@@ -49,7 +49,12 @@ public class SlotAdapter extends RecyclerView.Adapter<SlotAdapter.SlotHolder> {
         holder.startTime.setText(slots.get(position).getStart_time());
         holder.endTime.setText(slots.get(position).getEnd_time());
         holder.slotOwner.setText(slots.get(position).getOwner());
-        holder.slotStatus.setText(slots.get(position).getStatus());
+        if(slots.get(position).getStatus().equals("fna")){
+            holder.slotStatus.setText("Faculty Not Available");
+        }
+        else{
+            holder.slotStatus.setText(slots.get(position).getStatus());
+        }
         if(slots.get(position).equals("free")){
             holder.slotStatus.setTextColor(R.color.green);
         }

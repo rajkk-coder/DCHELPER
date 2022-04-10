@@ -58,7 +58,13 @@ public class book_or_block extends AppCompatActivity {
         TextView b_venue=findViewById(R.id.book_venue);
         b_venue.setText("venue:"+slot.getVenue());
         TextView b_mode=findViewById(R.id.book_mode);
-        b_mode.setText(mode);
+        if(mode.equals("CE")){
+            b_mode.setText("mode: Comprehensive Exam");
+        }
+        else{
+            b_mode.setText("mode: DC Meeting");
+        }
+
         TextView b_date=findViewById(R.id.book_date);
         b_date.setText("Date:"+slot.getDate());
         TextView b_time=findViewById(R.id.book_timing);

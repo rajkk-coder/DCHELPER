@@ -18,16 +18,17 @@
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_add_faculty.xml" value="0.1526293287729799" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_add_panel_members.xml" value="0.16417272338606242" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_add_venue.xml" value="0.16417272338606242" />
-        <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_admin_dashboard.xml" value="0.1" />
+        <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_admin_dashboard.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_book_ablocked_slot.xml" value="0.16417272338606242" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_book_or_block.xml" value="0.16417272338606242" />
+        <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_book_venue.xml" value="0.22" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_cancel_aslot.xml" value="0.16417272338606242" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_choose_venue.xml" value="0.16417272338606242" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_display_panel_member_card.xml" value="0.16417272338606242" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_edit_faculty.xml" value="0.16417272338606242" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_faculty_list.xml" value="0.2" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_login.xml" value="0.19282051282051282" />
-        <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_main.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_manage_panel_members.xml" value="0.16417272338606242" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_schedule.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/activity_scholar_dashbaord.xml" value="0.16417272338606242" />
@@ -42,12 +43,14 @@
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/fragment_first.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/fragment_second.xml" value="0.16417272338606242" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/fragment_third.xml" value="0.16417272338606242" />
-        <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/history_card.xml" value="0.1" />
+        <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/history_card.xml" value="0.22" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/line.xml" value="0.16417272338606242" />
+        <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/nav_header.xml" value="0.1" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/slot_card.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/tick.xml" value="0.16417272338606242" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/layout/venue_card.xml" value="0.17407407407407408" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
+        <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/menu/nav_header_menu.xml" value="0.1" />
         <entry key="..\:/Users/rocky/Desktop/DCHelper/app/src/main/res/mipmap-anydpi-v26/ic_icon_custom1.xml" value="0.1525" />
         <entry key="..\:/Users/sreya/AndroidStudioProjects/DCHELPER/app/src/main/res/layout/activity_add_panel_members.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/sreya/AndroidStudioProjects/DCHELPER/app/src/main/res/layout/activity_book_or_block.xml" value="0.25416666666666665" />
@@ -65,7 +68,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="openjdk-18" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

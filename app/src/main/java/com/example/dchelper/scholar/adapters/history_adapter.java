@@ -30,8 +30,15 @@ public class history_adapter extends FirebaseRecyclerAdapter<Slot,history_adapte
     protected void onBindViewHolder(@NonNull history_adapter.history_Holder holder, int position, @NonNull Slot model) {
         holder.time.setText(model.getStart_time()+"-"+model.getEnd_time());
         holder.venue.setText(model.getVenue());
-        holder.status.setText(model.getStatus());
+        holder.status.setText("Completed");
         holder.date.setText(model.getDate());
+        if(model.getMode().equals("CE")){
+            holder.mode.setText("Comprehensive Exam");
+        }
+        else{
+            holder.mode.setText("DC Meeting");
+        }
+
     }
 
     @NonNull
@@ -42,11 +49,12 @@ public class history_adapter extends FirebaseRecyclerAdapter<Slot,history_adapte
 
     class history_Holder extends RecyclerView.ViewHolder{
 
-        TextView time,venue,status,date;
+        TextView time,venue,status,date,mode;
         private final Context context;
         public history_Holder(@NonNull View itemView) {
             super(itemView);
             context=itemView.getContext();
+            mode=itemView.findViewById(R.id.history_mode);
             time=itemView.findViewById(R.id.history_time);
             venue=itemView.findViewById(R.id.history_v_name);
             status=itemView.findViewById(R.id.history_status);

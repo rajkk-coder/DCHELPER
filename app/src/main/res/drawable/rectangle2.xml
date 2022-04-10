@@ -6,7 +6,8 @@
                 android:width="2dp"
 
                 android:color="@color/purple_200"/>
-            <solid android:color="#00B4D8"/>
+            <solid android:color="#0099FF"/>
+            <corners android:bottomLeftRadius="30dp"/>
             <padding android:bottom="12dp"/>
         </shape>
     </item>
