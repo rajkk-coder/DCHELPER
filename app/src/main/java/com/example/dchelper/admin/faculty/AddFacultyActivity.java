@@ -13,12 +13,22 @@ import android.widget.Toast;
 
 import com.example.dchelper.MainActivity;
 import com.example.dchelper.R;
+import com.example.dchelper.admin.AdminDashboardActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class AddFacultyActivity extends AppCompatActivity {
+
+    @Override
+    public void onBackPressed() {
+        Intent intent=new Intent(this, FacultyListActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        super.onBackPressed();
+        startActivity(intent);
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

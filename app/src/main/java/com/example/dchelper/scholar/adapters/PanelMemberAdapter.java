@@ -26,6 +26,7 @@ public class PanelMemberAdapter extends FirebaseRecyclerAdapter<PanelMember,Pane
      *
      * @param options
      */
+    private String mode;
     FirebaseUser user;
     public PanelMemberAdapter(@NonNull FirebaseRecyclerOptions<PanelMember> options) {
         super(options);
@@ -35,12 +36,12 @@ public class PanelMemberAdapter extends FirebaseRecyclerAdapter<PanelMember,Pane
     @Override
     protected void onBindViewHolder(@NonNull PanelMemberHolder holder, @SuppressLint("RecyclerView") int position, @NonNull PanelMember model) {
         holder.textView.setText(model.getFacultyName());
-
+        mode=model.getMode();
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FirebaseDatabase.getInstance().getReference().child("scholars")
-                        .child(user.getUid()).child("PanelMember").child("DC")
+                        .child(user.getUid()).child("PanelMember").child(mode)
                         .child(getRef(position).getKey())
                         .removeValue();
             }

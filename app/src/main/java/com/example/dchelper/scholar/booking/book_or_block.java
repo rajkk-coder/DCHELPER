@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dchelper.R;
+import com.example.dchelper.scholar.homePage.ScholarDashboardActivity;
 import com.example.dchelper.scholar.panelMembers.PanelMember;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -110,19 +111,15 @@ public class book_or_block extends AppCompatActivity {
                                     .push().setValue(slot);
                         }
                         Toast.makeText(book_or_block.this, "Booked successfully !", Toast.LENGTH_SHORT).show();
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                Intent intent=new Intent(book_or_block.this,select_time.class);
-                                setResult(911,intent);
-                                finish();
-                            }
-                        },200);
+                        Intent intent=new Intent(book_or_block.this,ScholarDashboardActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                         Toast.makeText(book_or_block.this, "Something went wrong !!", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                 });
             }
@@ -152,6 +149,7 @@ public class book_or_block extends AppCompatActivity {
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                         Toast.makeText(book_or_block.this, "Something went wrong..Please try again!!", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                 });
                 if(!check[0]){
@@ -172,17 +170,14 @@ public class book_or_block extends AppCompatActivity {
                                 assert panelMember != null;
                                 db.child("FNA").child(panelMember.getFacultyName()).child(dat)
                                         .push().setValue(slot).addOnCompleteListener(task -> {
-                                            if(task.isSuccessful())
-                                                Toast.makeText(book_or_block.this, "Blocked successfully !!", Toast.LENGTH_SHORT).show();
+                                            if(task.isSuccessful()){
+                                                Intent intent=new Intent(book_or_block.this,ScholarDashboardActivity.class);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                startActivity(intent);
+                                            }
                                         });
                             }
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    setResult(911);
-                                    finish();
-                                }
-                            },200);
+
                         }
 
                         @Override

@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import com.example.dchelper.R;
 import com.example.dchelper.login.LoginActivity;
 import com.example.dchelper.scholar.booking.Slot;
+import com.example.dchelper.scholar.booking.book_or_block;
 import com.example.dchelper.scholar.panelMembers.managePanelMembers;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -240,8 +241,9 @@ public class FirstFragment extends Fragment {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
-                    startActivity(new Intent(getContext(),LoginActivity.class));
-                    getActivity().getFragmentManager().popBackStack();
+                    Intent intent=new Intent(getContext(),LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
                 }
             }
         });

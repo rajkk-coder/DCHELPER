@@ -7,27 +7,21 @@
     tools:context=".scholar.panelMembers.managePanelMembers">
 
     <FrameLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="70dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="DC Panel Members"
-            android:textAlignment="center"
-            android:paddingTop="15dp"
-            android:textColor="@color/white"
-            android:textSize="27sp"
-            android:textStyle="bold"
-            android:background="@drawable/rectangle2"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+       <ToggleButton
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:id="@+id/toggleButton"
+           android:textOn=""
+           android:textOff="DC Meeting"
+           android:text=""
+           android:textColor="@color/white"
+           android:textSize="24sp"
+           android:background="@color/colorPrimary" />
     </FrameLayout>
     <FrameLayout
         android:layout_width="match_parent"

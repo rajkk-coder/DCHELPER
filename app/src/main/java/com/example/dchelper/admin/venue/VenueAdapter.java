@@ -61,7 +61,7 @@ public class VenueAdapter extends FirebaseRecyclerAdapter<Venue, VenueAdapter.Ve
             public void onClick(View view) {
                 final DialogPlus dialogPlus= DialogPlus.newDialog(holder.name.getContext())
                         .setContentHolder(new ViewHolder(R.layout.edit_venue))
-                        .setExpanded(true,980)
+                        .setExpanded(true,1280)
                         .setGravity(Gravity.CENTER)
                         .create();
                 View view1=dialogPlus.getHolderView();

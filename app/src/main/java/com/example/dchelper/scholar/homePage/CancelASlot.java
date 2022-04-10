@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.dchelper.R;
 import com.example.dchelper.scholar.booking.Slot;
+import com.example.dchelper.scholar.booking.book_or_block;
 import com.example.dchelper.scholar.panelMembers.PanelMember;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -93,6 +94,9 @@ public class CancelASlot extends AppCompatActivity {
                                                                 public void onComplete(@NonNull Task<Void> task) {
                                                                     if(task.isSuccessful()){
                                                                         alertDialog.hide();
+                                                                        Intent intent=new Intent(CancelASlot.this,ScholarDashboardActivity.class);
+                                                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                                        startActivity(intent);
                                                                     }
                                                                 }
                                                             });
@@ -104,7 +108,7 @@ public class CancelASlot extends AppCompatActivity {
                                                 @Override
                                                 public void onCancelled(@NonNull DatabaseError error) {
                                                     Toast.makeText(CancelASlot.this, "Something went wrong!!", Toast.LENGTH_SHORT).show();
-                                                    alertDialog.dismiss();
+                                                    alertDialog.hide();
                                                     finish();
                                                 }
                                             });
@@ -126,7 +130,9 @@ public class CancelASlot extends AppCompatActivity {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     alertDialog.hide();
-                                                    finish();
+                                                    Intent intent=new Intent(CancelASlot.this,ScholarDashboardActivity.class);
+                                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                    startActivity(intent);
                                                 }
                                             });
                                     }

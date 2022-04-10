@@ -33,10 +33,12 @@ public class PanelAdapter extends RecyclerView.Adapter<PanelAdapter.MemberViewHo
     private final Context context;
     private final ArrayList<Faculty>faculties;
     private  FirebaseUser user;
+    private String mode;
 
-    public PanelAdapter(Context context,ArrayList<Faculty> faculties) {
+    public PanelAdapter(Context context,ArrayList<Faculty> faculties,String mode) {
         this.faculties = faculties;
         this.context = context;
+        this.mode=mode;
         user=FirebaseAuth.getInstance().getCurrentUser();
     }
 
@@ -55,7 +57,7 @@ public class PanelAdapter extends RecyclerView.Adapter<PanelAdapter.MemberViewHo
             @Override
             public void onClick(View view) {
                 DatabaseReference myRef=FirebaseDatabase.getInstance().getReference().child("scholars")
-                        .child(user.getUid()).child("PanelMember").child("DC");
+                        .child(user.getUid()).child("PanelMember").child(mode);
                 myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -71,11 +73,11 @@ public class PanelAdapter extends RecyclerView.Adapter<PanelAdapter.MemberViewHo
                         }
 
                         if (flag==0){
-                            PanelMember panelMember=new PanelMember(faculty.getName(),"DC", user.getDisplayName());
+                            PanelMember panelMember=new PanelMember(faculty.getName(),mode, user.getDisplayName());
                             FirebaseDatabase.getInstance().getReference()
                                     .child("scholars")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    .child("PanelMember").child("DC")
+                                    .child("PanelMember").child(mode)
                                     .push().setValue(panelMember).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {

@@ -78,7 +78,9 @@ public class AdminDashboardActivity extends AppCompatActivity {
     private void signOut() {
         mGoogleSignInClient.signOut()
                 .addOnCompleteListener(this, task -> {
-                    startActivity(new Intent(this,LoginActivity.class));
+                    Intent intent=new Intent(this,LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
                 });
         finish();
     }

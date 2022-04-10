@@ -41,9 +41,7 @@
             android:exported="false" />
         <activity
             android:name=".scholar.homePage.ScholarDashboardActivity"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
-
+            android:exported="false">
         </activity>
         <activity
             android:name=".admin.faculty.AddFacultyActivity"
@@ -78,13 +76,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            android:exported="false">
         </activity>
     </application>
 

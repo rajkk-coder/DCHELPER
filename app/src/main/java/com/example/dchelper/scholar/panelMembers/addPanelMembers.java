@@ -1,6 +1,7 @@
 package com.example.dchelper.scholar.panelMembers;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dchelper.R;
 import com.example.dchelper.admin.faculty.Faculty;
+import com.example.dchelper.admin.faculty.FacultyListActivity;
 import com.example.dchelper.scholar.adapters.PanelAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,13 +26,14 @@ public class addPanelMembers extends AppCompatActivity {
     public ArrayList<Faculty>faculties;
     DatabaseReference db=FirebaseDatabase.getInstance().getReference();
     PanelAdapter panelAdapter;
+    private String mode;
 
     @Override
     public void onBackPressed() {
-
-        setResult(Activity.RESULT_CANCELED,getIntent().putExtra("hello","hlo"));
-        finish();
+        Intent intent=new Intent(this, managePanelMembers.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
         super.onBackPressed();
+        startActivity(intent);
     }
 
     @Override
@@ -39,11 +42,14 @@ public class addPanelMembers extends AppCompatActivity {
         setContentView(R.layout.activity_add_panel_members);
         recyclerView=findViewById(R.id.rv_add_panel_member);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        Bundle bundle=getIntent().getExtras();
+        mode=bundle.getString("mode");
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         faculties = new ArrayList<>();
 
-        panelAdapter=new PanelAdapter(this,faculties);
+        panelAdapter=new PanelAdapter(this,faculties,mode);
         recyclerView.setAdapter(panelAdapter);
         retrieveData();
 
