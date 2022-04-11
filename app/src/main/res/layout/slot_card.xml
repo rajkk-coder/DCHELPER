@@ -20,7 +20,7 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="88dp"
-                android:layout_height="58dp">
+                android:layout_height="64dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -54,13 +54,13 @@
 
         <FrameLayout
             android:layout_width="238dp"
-            android:layout_height="58dp">
+            android:layout_height="64dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <View
-                    android:layout_width="2dp"
+                    android:layout_width="4dp"
                     android:layout_height="match_parent"
                     android:background="#FF0000FF" />
 
@@ -72,18 +72,19 @@
 
                     <TextView
                         android:layout_marginTop="8dp"
-                        android:id="@+id/slot_status"
+                        android:id="@+id/slot_owner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Store name"
+
                         android:textSize="12sp" />
 
                     <TextView
                         android:layout_marginTop="6dp"
-                        android:id="@+id/slot_owner"
+                        android:id="@+id/slot_status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="store name"
+
+                        android:textStyle="bold|normal"
                         android:textSize="12sp" />
 
                 </LinearLayout>

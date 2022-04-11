@@ -40,10 +40,13 @@ public class PanelMemberAdapter extends FirebaseRecyclerAdapter<PanelMember,Pane
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(getRef(position)!=null){
                 FirebaseDatabase.getInstance().getReference().child("scholars")
                         .child(user.getUid()).child("PanelMember").child(mode)
                         .child(getRef(position).getKey())
                         .removeValue();
+                notifyItemRemoved(position);
+                notifyDataSetChanged();}
             }
         });
         

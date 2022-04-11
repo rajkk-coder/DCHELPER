@@ -28,13 +28,6 @@ public class addPanelMembers extends AppCompatActivity {
     PanelAdapter panelAdapter;
     private String mode;
 
-    @Override
-    public void onBackPressed() {
-        Intent intent=new Intent(this, managePanelMembers.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        super.onBackPressed();
-        startActivity(intent);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

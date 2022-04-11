@@ -9,7 +9,7 @@
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/signInButton"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="Sign IN"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -31,15 +31,13 @@
         android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="34dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="56dp"
-        android:layout_marginEnd="177dp"
+        android:fontFamily="sans-serif"
         android:text="Welcome"
-        android:textColor="@android:color/white"
+        android:textColor="@color/white"
         android:textSize="50sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -47,15 +45,12 @@
         android:id="@+id/textView11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="91dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="4dp"
-        android:layout_marginEnd="262dp"
         android:text="Back"
         android:textColor="@android:color/white"
         android:textSize="48dp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 

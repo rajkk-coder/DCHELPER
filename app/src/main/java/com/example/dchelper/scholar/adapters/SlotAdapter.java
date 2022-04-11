@@ -3,6 +3,7 @@ package com.example.dchelper.scholar.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -48,16 +49,22 @@ public class SlotAdapter extends RecyclerView.Adapter<SlotAdapter.SlotHolder> {
     public void onBindViewHolder(@NonNull SlotHolder holder, @SuppressLint("RecyclerView") int position){
         holder.startTime.setText(slots.get(position).getStart_time());
         holder.endTime.setText(slots.get(position).getEnd_time());
-        holder.slotOwner.setText(slots.get(position).getOwner());
         if(slots.get(position).getStatus().equals("fna")){
             holder.slotStatus.setText("Faculty Not Available");
+            holder.slotStatus.setTextSize(16);
+            holder.slotStatus.setTextColor(Color.parseColor("#FF7F50"));
+            holder.slotOwner.setVisibility(View.GONE);
+        }else if(slots.get(position).getStatus().equals("free")){
+            holder.slotStatus.setText(slots.get(position).getStatus());
+            holder.slotStatus.setTextColor(Color.parseColor("#008000"));
+            holder.slotOwner.setText(slots.get(position).getOwner());
         }
         else{
             holder.slotStatus.setText(slots.get(position).getStatus());
+            holder.slotStatus.setTextColor(Color.parseColor("#0000FF"));
+            holder.slotOwner.setText(slots.get(position).getOwner());
         }
-        if(slots.get(position).equals("free")){
-            holder.slotStatus.setTextColor(R.color.green);
-        }
+
         if(slots.get(position).getStatus().equals("free")){
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 final boolean[] check = {false};

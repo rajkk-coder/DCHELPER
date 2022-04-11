@@ -1,17 +1,18 @@
 package com.example.dchelper.scholar.booking;
 
 import static java.lang.Math.max;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,21 +47,13 @@ public class GetDateActivity extends AppCompatActivity {
     List<String> req_for_date=new ArrayList<>();
     DatabaseReference db;
     FirebaseUser user=FirebaseAuth.getInstance().getCurrentUser();
-    private ArrayList<Slot> slots1;
     ArrayList<Slot>slots=new ArrayList<>();
+    AlertDialog alertDialog;
+    ProgressBar progressBar;
 
     List<Button> list;
     LinearLayout layout;
     FrameLayout layout2;
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==911){
-            setResult(911);
-            finish();
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +69,11 @@ public class GetDateActivity extends AppCompatActivity {
         mode=bundle.getString("mode");
         slotAdapter=new ArrayList<>(Integer.parseInt(NoOfDates));
         db=FirebaseDatabase.getInstance().getReference();
-        slots1=new ArrayList<>();
-
+        alertDialog=new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Loading");
+        alertDialog.setMessage("Please wait..");
+        progressBar=findViewById(R.id.loading);
+        progressBar.setVisibility(View.GONE);
         layout = (LinearLayout) findViewById(R.id.scroll_dates);
         try {
             String[] token1 = start_date.split("/");
@@ -147,7 +143,7 @@ public class GetDateActivity extends AppCompatActivity {
     }
 
     private void retrieveData() {
-
+        alertDialog.show();
         for(int i = 0;i<Integer.parseInt(NoOfDates)+1;i++){
             int l=i;
             db.child("slot")
@@ -156,8 +152,7 @@ public class GetDateActivity extends AppCompatActivity {
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            slots1.clear();
-                            //slots.clear();
+                            ArrayList<Slot> slots1=new ArrayList<>();
                             for(DataSnapshot data:snapshot.getChildren()){
                                 slots1.add(data.getValue(Slot.class));
                             }
@@ -167,13 +162,11 @@ public class GetDateActivity extends AppCompatActivity {
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     for (DataSnapshot dt:snapshot.getChildren()){
                                         PanelMember panelMember=dt.getValue(PanelMember.class);
-                                        Toast.makeText(GetDateActivity.this, "myPanel "+panelMember.getFacultyName(), Toast.LENGTH_SHORT).show();
                                         db.child("FNA").child(panelMember.getFacultyName()).child(req_for_date.get(l)).addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                 for (DataSnapshot data:snapshot.getChildren()){
                                                     fna.add(data.getValue(Slot.class));
-                                                    Toast.makeText(GetDateActivity.this, "inner-"+fna.size(), Toast.LENGTH_SHORT).show();
                                                 }
                                             }
 
@@ -190,12 +183,11 @@ public class GetDateActivity extends AppCompatActivity {
 
                                 }
                             });
-                            Toast.makeText(GetDateActivity.this, "first-"+fna.size(), Toast.LENGTH_SHORT).show();
-                            //ArrayList<Slot>slt=findFreeSlot(slots1,fna,l);
+
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(GetDateActivity.this, "second"+fna.size(), Toast.LENGTH_SHORT).show();
+                                    alertDialog.hide();
                                     ArrayList<Slot>slt=findFreeSlot(slots1,fna,l);
                                 }
                             },1000);
@@ -215,7 +207,7 @@ public class GetDateActivity extends AppCompatActivity {
                 for (int i=0;i<Integer.parseInt(NoOfDates)+1;i++)
                     slotAdapter.get(i).notifyDataSetChanged();
             }
-        },2000);
+        },2500);
 //
     }
 
@@ -232,7 +224,7 @@ public class GetDateActivity extends AppCompatActivity {
 
     private ArrayList<Slot> retrieveFacultyNotAvailability(String date) {
         ArrayList<Slot>fna=new ArrayList<>();
-        db.child("scholars").child(user.getUid()).child("PanleMember").child(mode).addListenerForSingleValueEvent(new ValueEventListener() {
+        db.child("scholars").child(user.getUid()).child("PanelMember").child(mode).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dt:snapshot.getChildren()){
@@ -243,7 +235,6 @@ public class GetDateActivity extends AppCompatActivity {
                             for (DataSnapshot data:snapshot.getChildren())
                                 fna.add(data.getValue(Slot.class));
                         }
-
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
 
@@ -262,10 +253,9 @@ public class GetDateActivity extends AppCompatActivity {
 
     private ArrayList<Slot> findFreeSlot(ArrayList<Slot> temp, ArrayList<Slot> timings, int m) {
         ArrayList<Slot> allSlots = new ArrayList<>();
-        int i=0,j=0;
         Collections.sort(timings);
         int index = 0,n=timings.size();
-        for (i=1; i<n; i++)
+        for (int i=1; i<n; i++)
         {
             String s1= timings.get(i).getStart_time();
             String s2= timings.get(i).getEnd_time();
@@ -286,6 +276,7 @@ public class GetDateActivity extends AppCompatActivity {
                 timings.add(index,timings.get(i));
             }
         }
+        int i=0,j=0;
         if(timings.size()==0) index=-1;
         while(i<temp.size() && j<=index) {
             String s1= temp.get(i).getStart_time();
@@ -322,26 +313,58 @@ public class GetDateActivity extends AppCompatActivity {
             String[] token3=s3.split(":");
             int ss2 = Integer.parseInt(token2[0])*60+Integer.parseInt(token2[1]);
             int ss3 = Integer.parseInt(token3[0])*60+Integer.parseInt(token3[1]);
-            if (startTime < ss2 )
-            {
-                String slotStartTime = Integer.toString(startTime / 60) + ":" + Integer.toString(startTime % 60);
-                String slotEndTime = Integer.toString(ss2 / 60) + ":" + Integer.toString(ss2 % 60);
-                Slot freeSlot = new Slot("Available", slotStartTime, slotEndTime, venue, "aaj ka", "free");
-                allSlots.add(freeSlot);
+            if (startTime < ss2 ){
 
+                String slotStartTime =Integer.toString(startTime / 60);
+                if(startTime/60 < 10) {
+                    slotStartTime = '0'+slotStartTime;
+                }
+                String slotEndTime =Integer.toString(ss2 / 60);
+                if(ss2/60 < 10) {
+                    slotEndTime = '0'+slotEndTime;
+                }
+                String using =Integer.toString(startTime % 60);
+                if(startTime%60 < 10) {
+                    using = '0'+using;
+                }
+                String using1 =Integer.toString(ss2 % 60);
+                if(ss2%60 < 10) {
+                    using1 = '0'+using1;
+                }
+                slotStartTime = slotStartTime + ":" + using;
+                slotEndTime = slotEndTime + ":" + using1;
+                Slot freeSlot = new Slot("Available", slotStartTime, slotEndTime, venue, req_for_date.get(m), "free");
+                allSlots.add(freeSlot);
             }
             startTime=max(startTime,ss3);
         }
         if(startTime<endTime) {
-            String slotStartTime = Integer.toString(startTime / 60) + ":" + Integer.toString(startTime % 60);
-            String slotEndTime = Integer.toString(endTime / 60) + ":" + Integer.toString(endTime % 60);
+
+            String slotStartTime =Integer.toString(startTime / 60);
+            if(startTime/60 < 10) {
+                slotStartTime = '0'+slotStartTime;
+            }
+            String slotEndTime =Integer.toString(endTime / 60);
+            if(endTime/60 < 10) {
+                slotEndTime = '0'+slotEndTime;
+            }
+            String using =Integer.toString(startTime % 60);
+            if(startTime%60 < 10) {
+                using = '0'+using;
+            }
+            String using1 =Integer.toString(endTime % 60);
+            if(endTime%60 < 10) {
+                using1 = '0'+using1;
+            }
+            slotStartTime = slotStartTime + ":" + using;
+            slotEndTime = slotEndTime + ":" + using1;
+
             Slot freeSlot = new Slot("Available", slotStartTime, slotEndTime, venue, req_for_date.get(m), "free");
             allSlots.add(freeSlot);
         }
-
         Collections.sort(allSlots);
         slots=allSlots;
-        slotAdapter.add(new SlotAdapter(GetDateActivity.this,slots,mode));
+        slotAdapter.add(new SlotAdapter(GetDateActivity.this,allSlots,mode));
        return allSlots;
     }
 

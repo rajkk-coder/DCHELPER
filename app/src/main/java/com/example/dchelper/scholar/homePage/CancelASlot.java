@@ -115,7 +115,7 @@ public class CancelASlot extends AppCompatActivity {
                                 }
                             }
                         });
-                db.child("scholars").child(user.getUid()).child("PanelMember").child("DC").addListenerForSingleValueEvent(new ValueEventListener() {
+                db.child("scholars").child(user.getUid()).child("PanelMember").child(mode).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for(DataSnapshot data:snapshot.getChildren()){

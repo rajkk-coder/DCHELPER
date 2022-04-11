@@ -51,7 +51,7 @@ public class book_or_block extends AppCompatActivity {
         String venue = bundle.getString("venue");
         String owner = user.getDisplayName();
         String mode=bundle.getString("mode");
-        Slot slot = new Slot(owner,userStartTime, userEndTime, venue, date,"fna");
+        Slot slot = new Slot(owner,userStartTime, userEndTime, venue, date,"fna",mode);
 
         //setting text according to bundle
         TextView b_name=findViewById(R.id.book_name);
@@ -59,6 +59,7 @@ public class book_or_block extends AppCompatActivity {
         TextView b_venue=findViewById(R.id.book_venue);
         b_venue.setText("venue:"+slot.getVenue());
         TextView b_mode=findViewById(R.id.book_mode);
+
         if(mode.equals("CE")){
             b_mode.setText("mode: Comprehensive Exam");
         }

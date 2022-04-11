@@ -111,6 +111,7 @@ public class PanelAdapter extends RecyclerView.Adapter<PanelAdapter.MemberViewHo
         return faculties.size();
     }
 
+
     public class MemberViewHolder extends RecyclerView.ViewHolder {
         TextView name;
         ImageButton add;

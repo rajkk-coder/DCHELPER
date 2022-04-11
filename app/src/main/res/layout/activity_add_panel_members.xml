@@ -19,7 +19,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/rectangle2"
             android:paddingTop="15dp"
-            android:text="Add DC Panel Members"
+            android:text="Add Panel Members"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="24sp"

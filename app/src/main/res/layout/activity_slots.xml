@@ -55,6 +55,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+       <ProgressBar
+           android:id="@+id/loading"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginStart="150dp"
+           android:layout_marginTop="250dp"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_slots"
             android:layout_width="wrap_content"

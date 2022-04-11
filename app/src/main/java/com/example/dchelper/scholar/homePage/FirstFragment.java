@@ -2,6 +2,7 @@ package com.example.dchelper.scholar.homePage;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +39,8 @@ import java.util.Date;
 
 public class FirstFragment extends Fragment {
     private GoogleSignInClient mGoogleSignInClient;
-
+    private String mode;
+    private int temp=0;
     private FirebaseUser user;
     public FirstFragment(){
         // require a empty public constructor
@@ -51,6 +53,7 @@ public class FirstFragment extends Fragment {
 
         Button btn=view.findViewById(R.id.button);
         TextView welcome=view.findViewById(R.id.textView6);
+
         user=FirebaseAuth.getInstance().getCurrentUser();
         if(user!=null)
             welcome.setText(user.getDisplayName());
@@ -62,6 +65,7 @@ public class FirstFragment extends Fragment {
         TextView status=view.findViewById(R.id.dash_status);
         TextView time=view.findViewById(R.id.dash_time);
         TextView date=view.findViewById(R.id.dash_date);
+        TextView eventMode=view.findViewById(R.id.mode);
 
         cardView.setVisibility(View.GONE);
         //Blocked or Booked status
@@ -81,6 +85,11 @@ public class FirstFragment extends Fragment {
                             long difference_In_Time = 0;
 
                             assert slot != null;
+                            if(slot.getMode().equals("DC")){
+                                mode="DC Meeting";
+                            }else {
+                                mode="Comprehensive Exam";
+                            }
                             if(slot.getStatus().equals("Blocked")){
                                 @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf
                                         = new SimpleDateFormat(
@@ -108,9 +117,10 @@ public class FirstFragment extends Fragment {
                                 else {
                                     venue.setText(slot.getVenue());
                                     status.setText(slot.getStatus());
-                                    status.setTextColor(R.color.purple_200);
+                                    status.setTextColor(Color.parseColor("#800000"));
                                     time.setText(slot.getStart_time() + "-" + slot.getEnd_time());
                                     date.setText(slot.getDate());
+                                    eventMode.setText(mode);
                                     cardView.setVisibility(View.VISIBLE);
                                 }
                             }
@@ -131,7 +141,8 @@ public class FirstFragment extends Fragment {
                                 catch (ParseException e) {
                                     e.printStackTrace();
                                 }
-                                if(difference_In_Time > 0) {
+                                if(difference_In_Time > 0 && temp==0) {
+                                    temp++;
                                     FirebaseDatabase.getInstance().getReference()
                                             .child("scholars")
                                             .child(user.getUid())
@@ -146,9 +157,10 @@ public class FirstFragment extends Fragment {
                                 else {
                                     venue.setText(slot.getVenue());
                                     status.setText(slot.getStatus());
-                                    status.setTextColor(R.color.teal_700);
+                                    status.setTextColor(Color.parseColor("#0000FF"));
                                     time.setText(slot.getStart_time() + "-" + slot.getEnd_time());
                                     date.setText(slot.getDate());
+                                    eventMode.setText(mode);
                                     cardView.setVisibility(View.VISIBLE);
                                 }
 
@@ -190,7 +202,7 @@ public class FirstFragment extends Fragment {
                                     bundle.putString("start_time",slot.getStart_time());
                                     bundle.putString("end_time",slot.getEnd_time());
                                     bundle.putString("venue",slot.getVenue());
-                                    bundle.putString("Mode","DC");
+                                    bundle.putString("Mode",slot.getMode());
                                     bundle.putString("owner",slot.getOwner());
                                     bundle.putString("path",path);
                                     intent.putExtras(bundle);
@@ -203,7 +215,7 @@ public class FirstFragment extends Fragment {
                                     bundle.putString("start_time",slot.getStart_time());
                                     bundle.putString("end_time",slot.getEnd_time());
                                     bundle.putString("venue",slot.getVenue());
-                                    bundle.putString("Mode","Dc");
+                                    bundle.putString("Mode",slot.getMode());
                                     bundle.putString("owner",slot.getOwner());
                                     intent.putExtras(bundle);
                                     startActivity(intent);
