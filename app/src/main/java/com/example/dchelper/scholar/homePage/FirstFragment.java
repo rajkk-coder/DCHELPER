@@ -52,7 +52,7 @@ public class FirstFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_first, container, false);
 
         Button btn=view.findViewById(R.id.button);
-        TextView welcome=view.findViewById(R.id.textView6);
+        TextView welcome=view.findViewById(R.id.textView9);
 
         user=FirebaseAuth.getInstance().getCurrentUser();
         if(user!=null)
@@ -165,6 +165,12 @@ public class FirstFragment extends Fragment {
                                 }
 
                             }
+                        }
+                        else {
+                            venue.setText("You don't have any upcoming meeting....");
+                            venue.setTextSize(16);
+                            venue.setTextColor(Color.parseColor("#E97451"));
+                            cardView.setVisibility(View.VISIBLE);
                         }
                     }
 

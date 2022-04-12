@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dchelper.R;
@@ -31,6 +32,7 @@ public class book_or_block extends AppCompatActivity {
     FirebaseUser user;
     DatabaseReference db;
     private String date;
+    AlertDialog alertDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +44,9 @@ public class book_or_block extends AppCompatActivity {
         //creating database connection
         user=FirebaseAuth.getInstance().getCurrentUser();
         db=FirebaseDatabase.getInstance().getReference();
+        alertDialog=new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Processing");
+        alertDialog.setMessage("Please wait....");
 
         //unpacking bundle
         Bundle bundle = getIntent().getExtras();
@@ -75,13 +80,27 @@ public class book_or_block extends AppCompatActivity {
         //Event listener for block button
         book.setOnClickListener(view -> {
             final boolean[] check = {false};
-            db.child("slot").child(date).child(venue).orderByChild("start_time").addListenerForSingleValueEvent(new ValueEventListener() {
+            db.child("slot").child(slot.getDate()).child(slot.getVenue()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    alertDialog.show();
                     for (DataSnapshot data:snapshot.getChildren()){
                         Slot slot1=data.getValue(Slot.class);
                         assert slot1 != null;
-                        if(slot.getStart_time().compareTo(slot1.getEnd_time()) < 0 && slot.getEnd_time().compareTo(slot1.getStart_time()) > 0){
+                        String s1= slot1.getStart_time();
+                        String s2= slot1.getEnd_time();
+                        String[] token1=s1.split(":");
+                        String[] token2=s2.split(":");
+                        int ss1 = Integer.parseInt(token1[0])*60+Integer.parseInt(token1[1]);
+                        int ss2 = Integer.parseInt(token2[0])*60+Integer.parseInt(token2[1]);
+
+                        String v1= slot.getStart_time();
+                        String v2= slot.getEnd_time();
+                        String[] token3=v1.split(":");
+                        String[] token4=v2.split(":");
+                        int vv1 = Integer.parseInt(token3[0])*60+Integer.parseInt(token3[1]);
+                        int vv2 = Integer.parseInt(token4[0])*60+Integer.parseInt(token4[1]);
+                        if(ss1 < vv2 && ss2 > vv1 ){
                             check[0] =true;
                         }
                     }
@@ -92,38 +111,51 @@ public class book_or_block extends AppCompatActivity {
                     Toast.makeText(book_or_block.this, "Something went wrong..Please try again!!", Toast.LENGTH_SHORT).show();
                 }
             });
-            if(!check[0]){
-                //add values to slot table
-                db.child("slot").child(date).child(venue).push()
-                        .setValue(new Slot(owner,userStartTime,userEndTime,venue,date,"Booked",mode));
-                //add values to upcoming event table
-                db.child("scholars").child(user.getUid()).child("UpComingEvent").push()
-                        .setValue(new Slot(owner,userStartTime,userEndTime,venue,date,"Booked",mode));
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    alertDialog.hide();
+                    if(!check[0]){
+                        //add values to slot table
+                        db.child("slot").child(date).child(venue).push()
+                                .setValue(new Slot(owner,userStartTime,userEndTime,venue,date,"Booked",mode));
+                        //add values to upcoming event table
+                        db.child("scholars").child(user.getUid()).child("UpComingEvent").push()
+                                .setValue(new Slot(owner,userStartTime,userEndTime,venue,date,"Booked",mode));
 
-                //FNA Table update
-                String dat=date;
-                db.child("scholars").child(user.getUid()).child("PanelMember").child(mode).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot date:snapshot.getChildren()){
-                            PanelMember panelMember=date.getValue(PanelMember.class);
-                            assert panelMember != null;
-                            db.child("FNA").child(panelMember.getFacultyName()).child(dat)
-                                    .push().setValue(slot);
-                        }
-                        Toast.makeText(book_or_block.this, "Booked successfully !", Toast.LENGTH_SHORT).show();
+                        //FNA Table update
+                        String dat=date;
+                        db.child("scholars").child(user.getUid()).child("PanelMember").child(mode).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot date:snapshot.getChildren()){
+                                    PanelMember panelMember=date.getValue(PanelMember.class);
+                                    assert panelMember != null;
+                                    db.child("FNA").child(panelMember.getFacultyName()).child(dat)
+                                            .push().setValue(slot);
+                                }
+                                Toast.makeText(book_or_block.this, "Booked successfully !", Toast.LENGTH_SHORT).show();
+                                Intent intent=new Intent(book_or_block.this,ScholarDashboardActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Toast.makeText(book_or_block.this, "Something went wrong !!", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        });
+                    }
+                    else {
+                        Toast.makeText(book_or_block.this, "Someone has just booked/blocked it!!!", Toast.LENGTH_SHORT).show();
                         Intent intent=new Intent(book_or_block.this,ScholarDashboardActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     }
+                }
+            },1000);
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(book_or_block.this, "Something went wrong !!", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                });
-            }
         });
 
         //onclick listener for book button
@@ -138,10 +170,24 @@ public class book_or_block extends AppCompatActivity {
                 db.child("slot").child(date).child(venue).orderByChild("start_time").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        alertDialog.show();
                         for (DataSnapshot data:snapshot.getChildren()){
                             Slot slot1=data.getValue(Slot.class);
                             assert slot1 != null;
-                            if(slot.getStart_time().compareTo(slot1.getEnd_time()) < 0 && slot.getEnd_time().compareTo(slot1.getStart_time()) > 0){
+                            String s1= slot1.getStart_time();
+                            String s2= slot1.getEnd_time();
+                            String[] token1=s1.split(":");
+                            String[] token2=s2.split(":");
+                            int ss1 = Integer.parseInt(token1[0])*60+Integer.parseInt(token1[1]);
+                            int ss2 = Integer.parseInt(token2[0])*60+Integer.parseInt(token2[1]);
+
+                            String v1= slot.getStart_time();
+                            String v2= slot.getEnd_time();
+                            String[] token3=v1.split(":");
+                            String[] token4=v2.split(":");
+                            int vv1 = Integer.parseInt(token3[0])*60+Integer.parseInt(token3[1]);
+                            int vv2 = Integer.parseInt(token4[0])*60+Integer.parseInt(token4[1]);
+                            if(ss1 < vv2 && ss2 > vv1 ){
                                 check[0] =true;
                             }
                         }
@@ -153,41 +199,54 @@ public class book_or_block extends AppCompatActivity {
                         finish();
                     }
                 });
-                if(!check[0]){
-                    //add values to slot table
-                    db.child("slot").child(date).child(venue).push()
-                            .setValue(new Slot(owner,userStartTime,userEndTime,venue,date,"Blocked",mode));
-                    //add values to upcoming event table
-                    db.child("scholars").child(user.getUid()).child("UpComingEvent").push()
-                            .setValue(new Slot(owner,userStartTime,userEndTime,venue,date,"Blocked",mode,currentDateAndTime));
 
-                    //FNA Table update
-                    String dat=date;
-                    db.child("scholars").child(user.getUid()).child("PanelMember").child(mode).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for (DataSnapshot date:snapshot.getChildren()){
-                                PanelMember panelMember=date.getValue(PanelMember.class);
-                                assert panelMember != null;
-                                db.child("FNA").child(panelMember.getFacultyName()).child(dat)
-                                        .push().setValue(slot).addOnCompleteListener(task -> {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        alertDialog.hide();
+                        if(!check[0]){
+                            //add values to slot table
+                            db.child("slot").child(date).child(venue).push()
+                                    .setValue(new Slot(owner,userStartTime,userEndTime,venue,date,"Blocked",mode));
+                            //add values to upcoming event table
+                            db.child("scholars").child(user.getUid()).child("UpComingEvent").push()
+                                    .setValue(new Slot(owner,userStartTime,userEndTime,venue,date,"Blocked",mode,currentDateAndTime));
+
+                            //FNA Table update
+                            String dat=date;
+                            db.child("scholars").child(user.getUid()).child("PanelMember").child(mode).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for (DataSnapshot date:snapshot.getChildren()){
+                                        PanelMember panelMember=date.getValue(PanelMember.class);
+                                        assert panelMember != null;
+                                        db.child("FNA").child(panelMember.getFacultyName()).child(dat)
+                                                .push().setValue(slot).addOnCompleteListener(task -> {
                                             if(task.isSuccessful()){
                                                 Intent intent=new Intent(book_or_block.this,ScholarDashboardActivity.class);
                                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                                 startActivity(intent);
                                             }
                                         });
-                            }
+                                    }
 
-                        }
+                                }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Toast.makeText(book_or_block.this, "Something went wrong!!", Toast.LENGTH_SHORT).show();
-                            finish();
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                    Toast.makeText(book_or_block.this, "Something went wrong!!", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
+                            });
                         }
-                    });
-                }
+                        else {
+                            Toast.makeText(book_or_block.this, "Someone has just booked/blocked it!!!", Toast.LENGTH_SHORT).show();
+                            Intent intent=new Intent(book_or_block.this,ScholarDashboardActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                        }
+                    }
+                },1000);
             }
         });
     }

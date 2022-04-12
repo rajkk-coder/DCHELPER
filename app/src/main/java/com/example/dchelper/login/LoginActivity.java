@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show());
         }
         //Login as scholar: in this case scholar is B.tech student
-        else if(acct.getEmail().contains("_b") && acct.getEmail().endsWith("@nitc.ac.in")){
+        else if(acct.getEmail().contains("_b") && acct.getEmail().endsWith("@nitc.ac.in") || acct.getEmail().endsWith("@nitc.ac.in") && acct.getEmail().contains("_p")){
             AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
             mAuth.signInWithCredential(credential)
                     .addOnSuccessListener(this, authResult -> {

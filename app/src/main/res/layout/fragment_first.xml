@@ -9,7 +9,7 @@
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="wrap_content"
-        android:layout_height="120dp"
+        android:layout_height="100dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -19,17 +19,17 @@
             android:layout_height="match_parent"
             android:background="@drawable/rectangle2"
             android:paddingTop="20dp"
-            android:text="National Institite of Technology"
+            android:text="DC Helper"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="24sp"
+            android:textSize="32sp"
             android:textStyle="bold" />
 
         <ImageButton
             android:id="@+id/firstFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="330dp"
+            android:layout_marginStart="320dp"
             android:layout_marginTop="70dp"
             android:src="@drawable/ic_baseline_login_24"
             android:background="#0099FF"
@@ -44,12 +44,12 @@
             android:id="@+id/textView9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Calicut"
-            android:layout_marginTop="65dp"
-            android:layout_marginLeft="159dp"
+            android:text=""
+            android:layout_marginTop="75dp"
+            android:layout_marginLeft="160dp"
             android:textColor="@android:color/white"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textSize="12sp"
+            android:textStyle="normal" />
     </FrameLayout>
 
     <androidx.cardview.widget.CardView
@@ -97,7 +97,7 @@
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="12dp"
-                    android:text="Venue"
+                    android:text=""
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -109,7 +109,7 @@
                     android:layout_marginTop="12dp"
                     android:layout_marginEnd="30dp"
                     android:layout_marginBottom="1dp"
-                    android:text="Status"
+                    android:text=""
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -125,7 +125,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:text="Timing"
+                    android:text=""
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -135,7 +135,7 @@
                     android:layout_width="58dp"
                     android:layout_height="31dp"
                     android:layout_marginEnd="45dp"
-                    android:text="Date"
+                    android:text=""
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

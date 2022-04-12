@@ -2,6 +2,7 @@ package com.example.dchelper.scholar.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dchelper.R;
@@ -28,9 +30,11 @@ public class PanelMemberAdapter extends FirebaseRecyclerAdapter<PanelMember,Pane
      */
     private String mode;
     FirebaseUser user;
+    AlertDialog.Builder builder;
     public PanelMemberAdapter(@NonNull FirebaseRecyclerOptions<PanelMember> options) {
         super(options);
         user= FirebaseAuth.getInstance().getCurrentUser();
+
     }
 
     @Override
@@ -41,12 +45,42 @@ public class PanelMemberAdapter extends FirebaseRecyclerAdapter<PanelMember,Pane
             @Override
             public void onClick(View view) {
                 if(getRef(position)!=null){
-                FirebaseDatabase.getInstance().getReference().child("scholars")
-                        .child(user.getUid()).child("PanelMember").child(mode)
-                        .child(getRef(position).getKey())
-                        .removeValue();
-                notifyItemRemoved(position);
-                notifyDataSetChanged();}
+                    builder= new AlertDialog.Builder(holder.context);
+                    builder.setTitle("Confirm").setMessage("Are you sure?").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            switch (i){
+                                case DialogInterface.BUTTON_POSITIVE:
+                                    FirebaseDatabase.getInstance().getReference().child("scholars")
+                                            .child(user.getUid()).child("PanelMember").child(mode)
+                                            .child(getRef(position).getKey())
+                                            .removeValue();
+                                    notifyItemRemoved(position);
+                                    notifyDataSetChanged();
+                                    break;
+                                case DialogInterface.BUTTON_NEGATIVE:
+                                    break;
+                            }
+                        }
+                    })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    switch (i){
+                                        case DialogInterface.BUTTON_POSITIVE:
+                                            FirebaseDatabase.getInstance().getReference().child("scholars")
+                                                    .child(user.getUid()).child("PanelMember").child(mode)
+                                                    .child(getRef(position).getKey())
+                                                    .removeValue();
+                                            notifyItemRemoved(position);
+                                            notifyDataSetChanged();
+                                            break;
+                                        case DialogInterface.BUTTON_NEGATIVE:
+                                            break;
+                                    }
+                                }
+                            }).show();
+                }
             }
         });
         

@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
     <FrameLayout
         android:id="@+id/frameLayout3"
         android:layout_width="wrap_content"
@@ -31,133 +30,135 @@
             android:layout_height="match_parent" />
     </FrameLayout>
 
-
-    <TextView
-        android:id="@+id/radio_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Select a mode of the meeting"
-        android:textColor="#000000"
-        android:textSize="24sp"
-        android:textStyle="italic|bold"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout3" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <RadioGroup
-        android:id="@+id/radioGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.538"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radio_button">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <RadioButton
-            android:id="@+id/radio_DC"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="DC Meeting"
-            android:textSize="20sp" />
 
-        <RadioButton
-            android:id="@+id/radio_CE"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Comprehensive Exam"
-            android:textSize="20sp" />
-    </RadioGroup>
+            <TextView
+                android:id="@+id/radio_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Select a mode of the meeting"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="italic|bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout3" />
 
-    <TextView
-        android:id="@+id/firstFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="Select a range of dates"
-        android:textColor="#000000"
-        android:textSize="24sp"
-        android:textStyle="italic|bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.538"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/radio_button">
 
-    <Button
-        android:id="@+id/proceed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        android:text="Proceed"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/To_date" />
+                <RadioButton
+                    android:id="@+id/radio_DC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DC Meeting"
+                    android:textSize="20sp" />
 
-    <EditText
-        android:id="@+id/From_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:ems="10"
-        android:hint="From Date"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.542"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/firstFragment" />
+                <RadioButton
+                    android:id="@+id/radio_CE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Comprehensive Exam"
+                    android:textSize="20sp" />
+            </RadioGroup>
 
-    <EditText
-        android:id="@+id/To_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:ems="10"
-        android:hint="To Date"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.542"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/From_date" />
+            <TextView
+                android:id="@+id/firstFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="Select a range of dates"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="italic|bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
-    <ImageButton
-        android:id="@+id/To_date_calender"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="60dp"
-        android:src="@drawable/ic_calender"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.746"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/from_date_calender"
-        tools:ignore="SpeakableTextPresentCheck" />
+            <Button
+                android:id="@+id/proceed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="70dp"
+                android:text="Proceed"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.461"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/To_date" />
 
-    <ImageButton
-        android:id="@+id/from_date_calender"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="54dp"
-        android:src="@drawable/ic_calender"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.746"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/firstFragment"
-        tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
+            <EditText
+                android:id="@+id/From_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:ems="10"
+                android:hint="From Date"
+                android:inputType="textPersonName"
+                android:minHeight="48dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.542"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/firstFragment" />
 
-    <!--    <ProgressBar-->
-<!--        android:id="@+id/progress_bar"-->
-<!--        style="@style/Widget.AppCompat.ProgressBar.Horizontal"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="10dp"-->
-<!--        android:layout_marginStart="20dp"-->
-<!--        android:layout_marginEnd="20dp"-->
-<!--        android:layout_marginBottom="30dp"-->
-<!--        android:progressDrawable="@drawable/custom_progress_bg"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent" />-->
+            <EditText
+                android:id="@+id/To_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:ems="10"
+                android:hint="To Date"
+                android:inputType="textPersonName"
+                android:minHeight="48dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.542"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/From_date" />
+
+            <ImageButton
+                android:id="@+id/To_date_calender"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="60dp"
+                android:src="@drawable/ic_calender"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.746"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/from_date_calender"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <ImageButton
+                android:id="@+id/from_date_calender"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="54dp"
+                android:src="@drawable/ic_calender"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.746"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/firstFragment"
+                tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

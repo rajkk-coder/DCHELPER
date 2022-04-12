@@ -1,12 +1,15 @@
 package com.example.dchelper.admin.venue;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AlertDialogLayout;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -19,6 +22,11 @@ import android.widget.Toast;
 import com.example.dchelper.R;
 import com.example.dchelper.admin.AdminDashboardActivity;
 import com.example.dchelper.scholar.booking.Slot;
+import com.example.dchelper.scholar.booking.book_or_block;
+import com.example.dchelper.scholar.homePage.ScholarDashboardActivity;
+import com.example.dchelper.scholar.panelMembers.PanelMember;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,10 +50,7 @@ public class BookVenue extends AppCompatActivity {
     String start_time="";
     String end_time="";
     String venue="";
-
-    ArrayList<Slot> slot_details=new ArrayList<Slot>();
-    ArrayList<String> path=new ArrayList<String>();
-    int size=0;
+    AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +67,9 @@ public class BookVenue extends AppCompatActivity {
         img1=findViewById(R.id.imageButton3);
         img2=findViewById(R.id.imageButton4);
         img3=findViewById(R.id.imageButton5);
+        alertDialog=new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Processing");
+        alertDialog.setMessage("Please wait..");
         admin_venue.setText(venue);
 
         img1.setOnClickListener(new View.OnClickListener() {
@@ -130,101 +138,78 @@ public class BookVenue extends AppCompatActivity {
 
         Button btn=findViewById(R.id.admin_book);
         btn.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
-
-                String[] token1 = date.split("-");
-                String[] token2 = start_time.split(":");
-                String[] token3 = end_time.split(":");
-                if (token1.length != 3 || token2.length != 2 || token3.length != 2) {
-                    Toast.makeText(BookVenue.this, "select a valid date or time", Toast.LENGTH_SHORT).show();
-                } else {
-                    DatabaseReference myRef = FirebaseDatabase.getInstance().getReference()
-                            .child("slot")
-                            .child(date)
-                            .child(venue);
-
-                    myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                alertDialog.show();
+                Slot slot=new Slot("CSED Department",admin_start_time.getText().toString(),admin_end_time.getText().toString(),venue,admin_date.getText().toString(),"Booked");
+                if(admin_date!=null && admin_start_time!=null && admin_end_time!=null){
+                    boolean[] check={false};
+                    FirebaseDatabase.getInstance().getReference()
+                            .child("slot").child(slot.getDate()).child(slot.getVenue()).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (!snapshot.exists()) {
-                                if (start_time == "08:00" && end_time == "18:00") {
-                                    myRef.push().setValue(new Slot("CSED Department", start_time, end_time, venue, date, "Booked"));
-                                } else if (start_time == "08:00") {
-                                    myRef.push().setValue(new Slot("CSED Department", start_time, end_time, venue, date, "Booked"));
-                                    myRef.push().setValue(new Slot("free", end_time, "18:00", venue, date, "free"));
-                                } else if (end_time == "18:00") {
-                                    myRef.push().setValue(new Slot("free", "08:00", start_time, venue, date, "free"));
-                                    myRef.push().setValue(new Slot("CSED Department", start_time, end_time, venue, date, "Booked"));
-                                } else if (start_time != "08:00" && end_time != "18:00") {
-                                    myRef.push().setValue(new Slot("free", "08:00", start_time, venue, date, "free"));
-                                    myRef.push().setValue(new Slot("CSED Department", start_time, end_time, venue, date, "Booked"));
-                                    myRef.push().setValue(new Slot("free", end_time, "18:00", venue, date, "free"));
-                                }
-                            } else {
-                                for (DataSnapshot item : snapshot.getChildren()) {
-                                    slot_details.add(item.getValue(Slot.class));
-                                    path.add(item.getKey());
-                                    size++;
-                                }
-                                getslot();
+                            for (DataSnapshot data:snapshot.getChildren()){
+                                Slot slot1=data.getValue(Slot.class);
+                                assert slot1 != null;
+                                String s1= slot1.getStart_time();
+                                String s2= slot1.getEnd_time();
+                                String[] token1=s1.split(":");
+                                String[] token2=s2.split(":");
+                                int ss1 = Integer.parseInt(token1[0])*60+Integer.parseInt(token1[1]);
+                                int ss2 = Integer.parseInt(token2[0])*60+Integer.parseInt(token2[1]);
 
-                            }
-                        }
-
-                        private void getslot() {
-                            int temp = 0;
-                            for (int i = 0; i < size; i++) {
-                                if (cmp(slot_details.get(i).getStart_time(), start_time) && cmp(end_time, slot_details.get(i).getEnd_time()) && (slot_details.get(i).getStatus().equals("free"))) {
-                                    if (slot_details.get(i).getStart_time() == start_time && end_time == slot_details.get(i).getEnd_time()) {
-                                        myRef.child(path.get(i)).removeValue();
-                                        myRef.push().setValue(new Slot("CSED Department", start_time, end_time, venue, date, "Booked"));
-                                        temp = 1;
-                                        break;
-                                    } else if (slot_details.get(i).getStart_time() == start_time) {
-                                        myRef.child(path.get(i)).removeValue();
-                                        myRef.push().setValue(new Slot("CSED Department", start_time, end_time, venue, date, "Booked"));
-                                        myRef.push().setValue(new Slot("free", end_time, slot_details.get(i).getEnd_time(), venue, date, "free"));
-                                        temp = 1;
-                                        break;
-                                    } else if (slot_details.get(i).getEnd_time() == end_time) {
-                                        myRef.child(path.get(i)).removeValue();
-                                        myRef.push().setValue(new Slot("free", slot_details.get(i).getStart_time(), start_time, venue, date, "free"));
-                                        myRef.push().setValue(new Slot("CSED Department", start_time, end_time, venue, date, "Booked"));
-                                        temp = 1;
-                                        break;
-                                    } else {
-                                        myRef.child(path.get(i)).removeValue();
-                                        myRef.push().setValue(new Slot("free", slot_details.get(i).getStart_time(), start_time, venue, date, "free"));
-                                        myRef.push().setValue(new Slot("CSED Department", start_time, end_time, venue, date, "Booked"));
-                                        myRef.push().setValue(new Slot("free", end_time, slot_details.get(i).getEnd_time(), venue, date, "free"));
-                                        temp = 1;
-                                        break;
-                                    }
+                                String v1= slot.getStart_time();
+                                String v2= slot.getEnd_time();
+                                String[] token3=v1.split(":");
+                                String[] token4=v2.split(":");
+                                int vv1 = Integer.parseInt(token3[0])*60+Integer.parseInt(token3[1]);
+                                int vv2 = Integer.parseInt(token4[0])*60+Integer.parseInt(token4[1]);
+                                if(ss1 < vv2 && ss2 > vv1 ){
+                                    check[0] =true;
                                 }
                             }
-                            if (temp == 0) {
-                                Toast.makeText(BookVenue.this, "Cant override Bookings", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        private boolean cmp(String a, String b) {
-                            String[] token1 = a.split(":");
-                            String[] token2 = b.split(":");
-                            int x = Integer.parseInt(token1[0]) * 60 + Integer.parseInt(token1[1]);
-                            int y = Integer.parseInt(token2[0]) * 60 + Integer.parseInt(token2[1]);
-                            if (x <= y) return true;
-                            else return false;
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-
+                            Toast.makeText(BookVenue.this, "Something went wrong. Please try again!!", Toast.LENGTH_SHORT).show();
                         }
                     });
-                    Toast.makeText(BookVenue.this, "Booked successfully!!", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(BookVenue.this, AdminDashboardActivity.class);
-                    startActivity(intent);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            alertDialog.hide();
+                            if(!check[0]){
+                                //add values to slot table
+                                FirebaseDatabase.getInstance().getReference()
+                                        .child("slot").child(slot.getDate()).child(slot.getVenue()).push()
+                                        .setValue(slot).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+                                            Toast.makeText(BookVenue.this, "Successfully booked", Toast.LENGTH_SHORT).show();
+
+                                        }
+                                        else {
+                                            Toast.makeText(BookVenue.this, "Something went wrong!!", Toast.LENGTH_SHORT).show();
+                                        }
+                                        Intent intent=new Intent(BookVenue.this,AdminDashboardActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
+                                    }
+                                });
+                                }
+                            else {
+                                Toast.makeText(BookVenue.this, "Someone has booked/blocked it!!!", Toast.LENGTH_SHORT).show();
+                                Intent intent=new Intent(BookVenue.this,AdminDashboardActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                            }
+                        }
+                    },1000);
+                }else {
+                    Toast.makeText(BookVenue.this, "Please fill the options", Toast.LENGTH_SHORT).show();
                 }
             }
         });

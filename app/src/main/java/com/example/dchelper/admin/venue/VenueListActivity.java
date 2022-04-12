@@ -23,8 +23,8 @@ public class VenueListActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent=new Intent(this, AdminDashboardActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        super.onBackPressed();
         startActivity(intent);
+        super.onBackPressed();
     }
 
     @Override
@@ -47,6 +47,7 @@ public class VenueListActivity extends AppCompatActivity {
                         .setQuery(query, Venue.class)
                         .build();
         venueAdapter =new VenueAdapter(options);
+        venueAdapter.startListening();
         recyclerView.setAdapter(venueAdapter);
 
 

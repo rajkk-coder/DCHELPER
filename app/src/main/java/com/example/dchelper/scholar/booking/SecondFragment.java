@@ -57,12 +57,10 @@ public class SecondFragment extends Fragment {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton rb=(RadioButton)view.findViewById(checkedId);
                 if(rb.getText().equals("DC Meeting")){
-                    Toast.makeText(getContext(), "You clicked DC", Toast.LENGTH_SHORT).show();
-                    mode="DC";
+                   mode="DC";
                 }
                 else if(rb.getText().equals("Comprehensive Exam")){
-                    Toast.makeText(getContext(), "You clicked CE", Toast.LENGTH_SHORT).show();
-                    mode="CE";
+                   mode="CE";
                 }
             }
         });

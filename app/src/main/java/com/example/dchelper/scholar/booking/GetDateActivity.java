@@ -1,6 +1,8 @@
 package com.example.dchelper.scholar.booking;
 
 import static java.lang.Math.max;
+
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -11,7 +13,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,7 +35,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
 
 public class GetDateActivity extends AppCompatActivity {
@@ -47,9 +47,10 @@ public class GetDateActivity extends AppCompatActivity {
     List<String> req_for_date=new ArrayList<>();
     DatabaseReference db;
     FirebaseUser user=FirebaseAuth.getInstance().getCurrentUser();
-    ArrayList<Slot>slots=new ArrayList<>();
+
     AlertDialog alertDialog;
     ProgressBar progressBar;
+    Button copied = null;
 
     List<Button> list;
     LinearLayout layout;
@@ -124,6 +125,7 @@ public class GetDateActivity extends AppCompatActivity {
         },2500);
     }
 
+
     private void disperse() {
         int i=0;
         for(Button btn: list){
@@ -132,12 +134,19 @@ public class GetDateActivity extends AppCompatActivity {
             temp.setLayoutManager(new LinearLayoutManager(this));
             temp.setAdapter(slotAdapter.get(i));
 
-            btn.setOnClickListener(view -> {
-
-                layout2.removeViewAt(0);
-                layout2.addView(temp);
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(copied!=null)
+                    copied.setBackgroundColor(Color.parseColor("#89CFF0"));
+                    btn.setBackgroundColor(Color.parseColor("#0818A8"));
+                    layout2.removeAllViews();
+                    layout2.addView(temp);
 //                    purana[0] =temp;
+                    copied = btn;
+                }
             });
+            btn.setBackgroundColor(Color.parseColor("#89CFF0"));
             i++;
         }
     }
@@ -187,7 +196,6 @@ public class GetDateActivity extends AppCompatActivity {
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    alertDialog.hide();
                                     ArrayList<Slot>slt=findFreeSlot(slots1,fna,l);
                                 }
                             },1000);
@@ -204,11 +212,11 @@ public class GetDateActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                alertDialog.hide();
                 for (int i=0;i<Integer.parseInt(NoOfDates)+1;i++)
                     slotAdapter.get(i).notifyDataSetChanged();
             }
         },2500);
-//
     }
 
     @Override
@@ -222,38 +230,11 @@ public class GetDateActivity extends AppCompatActivity {
         retrieveData();
     }
 
-    private ArrayList<Slot> retrieveFacultyNotAvailability(String date) {
-        ArrayList<Slot>fna=new ArrayList<>();
-        db.child("scholars").child(user.getUid()).child("PanelMember").child(mode).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dt:snapshot.getChildren()){
-                    PanelMember panelMember=dt.getValue(PanelMember.class);
-                    db.child("FNA").child(panelMember.getFacultyName()).child(date).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for (DataSnapshot data:snapshot.getChildren())
-                                fna.add(data.getValue(Slot.class));
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        return fna;
-    }
 
     private ArrayList<Slot> findFreeSlot(ArrayList<Slot> temp, ArrayList<Slot> timings, int m) {
         ArrayList<Slot> allSlots = new ArrayList<>();
         Collections.sort(timings);
+        Collections.sort(temp);
         int index = 0,n=timings.size();
         for (int i=1; i<n; i++)
         {
@@ -302,7 +283,7 @@ public class GetDateActivity extends AppCompatActivity {
             allSlots.add(timings.get(j));
             j++;
         }
-
+        Collections.sort(allSlots);
         int startTime = 8*60, endTime= 18*60;
         int sz=allSlots.size();
         for (int it=0; it<sz; it++)
@@ -363,7 +344,6 @@ public class GetDateActivity extends AppCompatActivity {
             allSlots.add(freeSlot);
         }
         Collections.sort(allSlots);
-        slots=allSlots;
         slotAdapter.add(new SlotAdapter(GetDateActivity.this,allSlots,mode));
        return allSlots;
     }
